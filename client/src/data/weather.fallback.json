@@ -1,0 +1,146 @@
+{
+  "Mumbai, Maharashtra": {
+    "current": { "temp": 30, "feelsLike": 34, "humidity": 78, "wind": 14, "condition": "humid" },
+    "forecast": [
+      { "date": "Day 1", "hi": 32, "lo": 26, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 2", "hi": 31, "lo": 26, "condition": "cloudy", "rain": 20, "label": "Mostly cloudy" },
+      { "date": "Day 3", "hi": 30, "lo": 25, "condition": "rain", "rain": 55, "label": "Heavy showers" },
+      { "date": "Day 4", "hi": 29, "lo": 25, "condition": "rain", "rain": 40, "label": "Showers" },
+      { "date": "Day 5", "hi": 30, "lo": 25, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 6", "hi": 31, "lo": 26, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 7", "hi": 32, "lo": 26, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Pune, Maharashtra": {
+    "current": { "temp": 28, "feelsLike": 30, "humidity": 62, "wind": 10, "condition": "partly-cloudy" },
+    "forecast": [
+      { "date": "Day 1", "hi": 30, "lo": 22, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 2", "hi": 30, "lo": 22, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 3", "hi": 29, "lo": 21, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 4", "hi": 28, "lo": 21, "condition": "rain", "rain": 30, "label": "Light rain" },
+      { "date": "Day 5", "hi": 29, "lo": 22, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 31, "lo": 23, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 7", "hi": 32, "lo": 23, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Bengaluru, Karnataka": {
+    "current": { "temp": 26, "feelsLike": 27, "humidity": 65, "wind": 8, "condition": "partly-cloudy" },
+    "forecast": [
+      { "date": "Day 1", "hi": 28, "lo": 20, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 2", "hi": 28, "lo": 20, "condition": "rain", "rain": 25, "label": "Light rain" },
+      { "date": "Day 3", "hi": 27, "lo": 19, "condition": "rain", "rain": 35, "label": "Showers" },
+      { "date": "Day 4", "hi": 27, "lo": 19, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 5", "hi": 28, "lo": 20, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 29, "lo": 20, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 7", "hi": 29, "lo": 20, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Chennai, Tamil Nadu": {
+    "current": { "temp": 33, "feelsLike": 38, "humidity": 80, "wind": 16, "condition": "humid" },
+    "forecast": [
+      { "date": "Day 1", "hi": 35, "lo": 27, "condition": "sunny", "rain": 0, "label": "Hot and sunny" },
+      { "date": "Day 2", "hi": 36, "lo": 28, "condition": "sunny", "rain": 0, "label": "Hot" },
+      { "date": "Day 3", "hi": 39, "lo": 28, "condition": "hot", "rain": 0, "label": "Heatwave" },
+      { "date": "Day 4", "hi": 37, "lo": 28, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 5", "hi": 34, "lo": 27, "condition": "rain", "rain": 20, "label": "Light rain" },
+      { "date": "Day 6", "hi": 33, "lo": 26, "condition": "cloudy", "rain": 10, "label": "Cloudy" },
+      { "date": "Day 7", "hi": 34, "lo": 27, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" }
+    ]
+  },
+  "Hyderabad, Telangana": {
+    "current": { "temp": 31, "feelsLike": 34, "humidity": 58, "wind": 12, "condition": "sunny" },
+    "forecast": [
+      { "date": "Day 1", "hi": 33, "lo": 23, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 2", "hi": 34, "lo": 23, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 3", "hi": 35, "lo": 24, "condition": "sunny", "rain": 0, "label": "Hot" },
+      { "date": "Day 4", "hi": 34, "lo": 23, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 5", "hi": 33, "lo": 23, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 32, "lo": 22, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 7", "hi": 33, "lo": 22, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Nashik, Maharashtra": {
+    "current": { "temp": 29, "feelsLike": 31, "humidity": 60, "wind": 11, "condition": "partly-cloudy" },
+    "forecast": [
+      { "date": "Day 1", "hi": 31, "lo": 21, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 2", "hi": 31, "lo": 22, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 3", "hi": 30, "lo": 21, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 4", "hi": 29, "lo": 21, "condition": "rain", "rain": 25, "label": "Light rain" },
+      { "date": "Day 5", "hi": 30, "lo": 22, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 31, "lo": 22, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 7", "hi": 32, "lo": 22, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Jaipur, Rajasthan": {
+    "current": { "temp": 34, "feelsLike": 38, "humidity": 42, "wind": 14, "condition": "sunny" },
+    "forecast": [
+      { "date": "Day 1", "hi": 38, "lo": 24, "condition": "hot", "rain": 0, "label": "Hot and dry" },
+      { "date": "Day 2", "hi": 40, "lo": 25, "condition": "hot", "rain": 0, "label": "Heatwave" },
+      { "date": "Day 3", "hi": 41, "lo": 26, "condition": "hot", "rain": 0, "label": "Heatwave" },
+      { "date": "Day 4", "hi": 39, "lo": 25, "condition": "hot", "rain": 0, "label": "Very hot" },
+      { "date": "Day 5", "hi": 37, "lo": 24, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 6", "hi": 36, "lo": 24, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 7", "hi": 35, "lo": 23, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" }
+    ]
+  },
+  "Lucknow, Uttar Pradesh": {
+    "current": { "temp": 30, "feelsLike": 33, "humidity": 68, "wind": 9, "condition": "partly-cloudy" },
+    "forecast": [
+      { "date": "Day 1", "hi": 32, "lo": 23, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 2", "hi": 33, "lo": 23, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 3", "hi": 31, "lo": 23, "condition": "rain", "rain": 35, "label": "Showers" },
+      { "date": "Day 4", "hi": 30, "lo": 23, "condition": "rain", "rain": 25, "label": "Light rain" },
+      { "date": "Day 5", "hi": 31, "lo": 23, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 32, "lo": 24, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 7", "hi": 33, "lo": 24, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Kolkata, West Bengal": {
+    "current": { "temp": 31, "feelsLike": 36, "humidity": 82, "wind": 12, "condition": "humid" },
+    "forecast": [
+      { "date": "Day 1", "hi": 33, "lo": 26, "condition": "humid", "rain": 10, "label": "Humid" },
+      { "date": "Day 2", "hi": 32, "lo": 26, "condition": "rain", "rain": 45, "label": "Showers" },
+      { "date": "Day 3", "hi": 31, "lo": 26, "condition": "rain", "rain": 60, "label": "Heavy showers" },
+      { "date": "Day 4", "hi": 31, "lo": 25, "condition": "cloudy", "rain": 20, "label": "Cloudy" },
+      { "date": "Day 5", "hi": 32, "lo": 26, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 33, "lo": 26, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 7", "hi": 34, "lo": 27, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Ahmedabad, Gujarat": {
+    "current": { "temp": 35, "feelsLike": 39, "humidity": 48, "wind": 15, "condition": "sunny" },
+    "forecast": [
+      { "date": "Day 1", "hi": 37, "lo": 25, "condition": "sunny", "rain": 0, "label": "Hot" },
+      { "date": "Day 2", "hi": 39, "lo": 26, "condition": "hot", "rain": 0, "label": "Heatwave" },
+      { "date": "Day 3", "hi": 38, "lo": 26, "condition": "hot", "rain": 0, "label": "Very hot" },
+      { "date": "Day 4", "hi": 37, "lo": 25, "condition": "sunny", "rain": 0, "label": "Hot" },
+      { "date": "Day 5", "hi": 36, "lo": 25, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 6", "hi": 35, "lo": 24, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 7", "hi": 34, "lo": 24, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" }
+    ]
+  },
+  "Ludhiana, Punjab": {
+    "current": { "temp": 28, "feelsLike": 29, "humidity": 55, "wind": 10, "condition": "partly-cloudy" },
+    "forecast": [
+      { "date": "Day 1", "hi": 30, "lo": 20, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 2", "hi": 31, "lo": 21, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 3", "hi": 30, "lo": 20, "condition": "cloudy", "rain": 10, "label": "Cloudy" },
+      { "date": "Day 4", "hi": 28, "lo": 20, "condition": "rain", "rain": 30, "label": "Light rain" },
+      { "date": "Day 5", "hi": 29, "lo": 20, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 30, "lo": 21, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 7", "hi": 31, "lo": 21, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  },
+  "Bhopal, Madhya Pradesh": {
+    "current": { "temp": 30, "feelsLike": 32, "humidity": 58, "wind": 10, "condition": "partly-cloudy" },
+    "forecast": [
+      { "date": "Day 1", "hi": 32, "lo": 22, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 2", "hi": 33, "lo": 22, "condition": "partly-cloudy", "rain": 5, "label": "Partly cloudy" },
+      { "date": "Day 3", "hi": 32, "lo": 22, "condition": "cloudy", "rain": 15, "label": "Cloudy" },
+      { "date": "Day 4", "hi": 31, "lo": 21, "condition": "rain", "rain": 25, "label": "Light rain" },
+      { "date": "Day 5", "hi": 32, "lo": 22, "condition": "partly-cloudy", "rain": 10, "label": "Partly cloudy" },
+      { "date": "Day 6", "hi": 33, "lo": 23, "condition": "sunny", "rain": 0, "label": "Sunny" },
+      { "date": "Day 7", "hi": 34, "lo": 23, "condition": "sunny", "rain": 0, "label": "Sunny" }
+    ]
+  }
+}

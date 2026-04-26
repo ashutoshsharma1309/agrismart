@@ -1,0 +1,472 @@
+{
+  "loam-kharif": [
+    {
+      "id": "rice",
+      "name": "Rice",
+      "emoji": "🌾",
+      "confidence": 92,
+      "yieldRange": "4.5 – 5.8 tonnes/acre",
+      "waterNeed": "High",
+      "rationale": [
+        "Loam soil retains the moisture rice needs during monsoon.",
+        "Kharif temperature range (22–32°C) is ideal for transplanting.",
+        "Local demand is strong and government MSP support is stable."
+      ],
+      "companions": ["Azolla", "Sesbania", "Dhaincha"],
+      "risks": ["Blast fungus in humid weeks", "Brown planthopper outbreaks"]
+    },
+    {
+      "id": "maize",
+      "name": "Maize",
+      "emoji": "🌽",
+      "confidence": 86,
+      "yieldRange": "3.2 – 4.1 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Hybrid maize performs well on well-drained loam.",
+        "Shorter 90-day cycle leaves room for a rabi rotation.",
+        "Growing demand from the poultry feed market."
+      ],
+      "companions": ["Cowpea", "Soybean"],
+      "risks": ["Fall armyworm", "Stem borer"]
+    },
+    {
+      "id": "soybean",
+      "name": "Soybean",
+      "emoji": "🫘",
+      "confidence": 81,
+      "yieldRange": "1.0 – 1.3 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Fixes nitrogen and improves soil for the next cycle.",
+        "Tolerates the kharif rainfall pattern well.",
+        "Good oil and cake prices in central India."
+      ],
+      "companions": ["Pigeon pea", "Maize"],
+      "risks": ["Yellow mosaic virus", "Rust in humid weeks"]
+    }
+  ],
+  "loam-rabi": [
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "emoji": "🌾",
+      "confidence": 94,
+      "yieldRange": "1.8 – 2.4 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Loam gives wheat the aeration it needs for root growth.",
+        "Rabi temperatures (10–25°C) suit vegetative growth.",
+        "Procurement infrastructure is well established."
+      ],
+      "companions": ["Mustard", "Chickpea"],
+      "risks": ["Yellow rust", "Late-season heat stress"]
+    },
+    {
+      "id": "mustard",
+      "name": "Mustard",
+      "emoji": "🌼",
+      "confidence": 87,
+      "yieldRange": "0.7 – 1.0 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Thrives on residual monsoon moisture.",
+        "Deep roots tolerate mild water stress.",
+        "Oil prices remain strong season to season."
+      ],
+      "companions": ["Wheat", "Gram"],
+      "risks": ["Aphid infestation", "White rust"]
+    },
+    {
+      "id": "chickpea",
+      "name": "Chickpea",
+      "emoji": "🫛",
+      "confidence": 82,
+      "yieldRange": "0.8 – 1.1 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Restores nitrogen after cereals.",
+        "Handles dry rabi conditions with minimal irrigation.",
+        "Premium prices for desi varieties in local mandis."
+      ],
+      "companions": ["Linseed", "Coriander"],
+      "risks": ["Pod borer", "Wilt"]
+    }
+  ],
+  "loam-zaid": [
+    {
+      "id": "vegetables",
+      "name": "Summer Vegetables",
+      "emoji": "🥒",
+      "confidence": 78,
+      "yieldRange": "Varies by crop",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Loam with drip irrigation keeps summer crops healthy.",
+        "Strong demand from nearby urban markets.",
+        "Short cycle lets you squeeze a third crop in."
+      ],
+      "companions": ["Marigold (pest deterrent)"],
+      "risks": ["Heat stress", "Mite infestation"]
+    },
+    {
+      "id": "moong",
+      "name": "Moong (Green gram)",
+      "emoji": "🌱",
+      "confidence": 83,
+      "yieldRange": "0.4 – 0.6 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "60-day cycle fits between rabi and kharif.",
+        "Restores nitrogen cheaply.",
+        "Consistent mandi demand."
+      ],
+      "companions": ["Sesame"],
+      "risks": ["Yellow mosaic virus"]
+    },
+    {
+      "id": "sunflower",
+      "name": "Sunflower",
+      "emoji": "🌻",
+      "confidence": 75,
+      "yieldRange": "0.7 – 0.9 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Handles zaid heat and long sun hours.",
+        "Oilseed prices remain strong.",
+        "Rotation breaks pest cycles."
+      ],
+      "companions": ["Cowpea"],
+      "risks": ["Head rot if rains come early"]
+    }
+  ],
+  "clay-kharif": [
+    {
+      "id": "rice",
+      "name": "Paddy (Rice)",
+      "emoji": "🌾",
+      "confidence": 95,
+      "yieldRange": "4.8 – 6.1 tonnes/acre",
+      "waterNeed": "High",
+      "rationale": [
+        "Clay soils hold water — paddy's ideal.",
+        "Strong monsoon rains reduce irrigation cost.",
+        "Established procurement network."
+      ],
+      "companions": ["Azolla", "Fish (integrated)"],
+      "risks": ["Bacterial leaf blight", "Stem borer"]
+    },
+    {
+      "id": "jute",
+      "name": "Jute",
+      "emoji": "🌿",
+      "confidence": 80,
+      "yieldRange": "2.2 – 2.8 tonnes/acre",
+      "waterNeed": "High",
+      "rationale": [
+        "Clay's moisture retention suits jute retting.",
+        "Growing eco-textile demand.",
+        "Fits with paddy rotation."
+      ],
+      "companions": ["Moong after harvest"],
+      "risks": ["Stem rot", "Anthracnose"]
+    },
+    {
+      "id": "sugarcane",
+      "name": "Sugarcane",
+      "emoji": "🎋",
+      "confidence": 78,
+      "yieldRange": "35 – 45 tonnes/acre",
+      "waterNeed": "High",
+      "rationale": [
+        "Long cycle but high per-acre returns.",
+        "Clay holds the moisture required at tillering.",
+        "Mill linkages offer assured buyback."
+      ],
+      "companions": ["Onion in inter-rows"],
+      "risks": ["Red rot", "Pyrilla infestation"]
+    }
+  ],
+  "clay-rabi": [
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "emoji": "🌾",
+      "confidence": 88,
+      "yieldRange": "1.9 – 2.5 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "With proper drainage, clay gives high wheat yields.",
+        "Cool rabi months suit tillering.",
+        "MSP coverage makes price risk low."
+      ],
+      "companions": ["Mustard border rows"],
+      "risks": ["Waterlogging if drainage poor", "Termites"]
+    },
+    {
+      "id": "gram",
+      "name": "Gram (Chickpea)",
+      "emoji": "🫛",
+      "confidence": 84,
+      "yieldRange": "0.7 – 1.0 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Tolerates residual moisture in clay.",
+        "Adds nitrogen for next cycle.",
+        "Consistent prices."
+      ],
+      "companions": ["Linseed"],
+      "risks": ["Wilt", "Pod borer"]
+    },
+    {
+      "id": "linseed",
+      "name": "Linseed",
+      "emoji": "🌰",
+      "confidence": 76,
+      "yieldRange": "0.5 – 0.7 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Drought-tolerant, perfect for clay's deep moisture.",
+        "Grows alongside gram without competing.",
+        "Fibre + oil value."
+      ],
+      "companions": ["Gram"],
+      "risks": ["Rust", "Powdery mildew"]
+    }
+  ],
+  "clay-zaid": [
+    {
+      "id": "moong",
+      "name": "Moong",
+      "emoji": "🌱",
+      "confidence": 82,
+      "yieldRange": "0.4 – 0.6 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Short cycle handles zaid heat.",
+        "Restores nitrogen.",
+        "Good mandi prices."
+      ],
+      "companions": ["Sesame"],
+      "risks": ["Yellow mosaic virus"]
+    },
+    {
+      "id": "okra",
+      "name": "Okra",
+      "emoji": "🥒",
+      "confidence": 79,
+      "yieldRange": "3 – 5 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Clay holds moisture during summer heat.",
+        "Short cycle — 70 days.",
+        "Daily mandi demand."
+      ],
+      "companions": ["Marigold"],
+      "risks": ["Yellow vein mosaic", "Shoot borer"]
+    },
+    {
+      "id": "brinjal",
+      "name": "Brinjal",
+      "emoji": "🍆",
+      "confidence": 74,
+      "yieldRange": "8 – 12 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Warm season crop, loves clay's moisture.",
+        "Continuous harvest over 4 months.",
+        "Stable prices."
+      ],
+      "companions": ["Basil (pest repellent)"],
+      "risks": ["Shoot and fruit borer", "Bacterial wilt"]
+    }
+  ],
+  "sandy-kharif": [
+    {
+      "id": "groundnut",
+      "name": "Groundnut",
+      "emoji": "🥜",
+      "confidence": 90,
+      "yieldRange": "0.9 – 1.3 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Sandy soil suits pod development.",
+        "Oil demand remains strong.",
+        "Short cycle (110 days)."
+      ],
+      "companions": ["Pearl millet"],
+      "risks": ["Leaf spot", "Tikka disease"]
+    },
+    {
+      "id": "millet",
+      "name": "Pearl Millet (Bajra)",
+      "emoji": "🌾",
+      "confidence": 87,
+      "yieldRange": "0.8 – 1.1 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Drought-tolerant, ideal for sandy soils.",
+        "Growing nutrition market for millets.",
+        "Government push with Shree Anna."
+      ],
+      "companions": ["Cluster bean", "Moth bean"],
+      "risks": ["Downy mildew", "Ergot"]
+    },
+    {
+      "id": "cotton",
+      "name": "Cotton",
+      "emoji": "🌼",
+      "confidence": 82,
+      "yieldRange": "1.0 – 1.4 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Deep sandy loam suits Bt cotton roots.",
+        "Stable prices with export demand.",
+        "Long picking window."
+      ],
+      "companions": ["Pigeon pea border"],
+      "risks": ["Pink bollworm", "Whitefly"]
+    }
+  ],
+  "sandy-rabi": [
+    {
+      "id": "mustard",
+      "name": "Mustard",
+      "emoji": "🌼",
+      "confidence": 89,
+      "yieldRange": "0.7 – 1.0 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Deep-rooted — finds moisture in sandy soils.",
+        "Low input cost.",
+        "High oil demand."
+      ],
+      "companions": ["Wheat", "Gram"],
+      "risks": ["Aphid", "White rust"]
+    },
+    {
+      "id": "cumin",
+      "name": "Cumin",
+      "emoji": "🌿",
+      "confidence": 84,
+      "yieldRange": "0.3 – 0.5 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Thrives in dry, sandy conditions.",
+        "High per-acre value.",
+        "Export demand."
+      ],
+      "companions": ["Coriander"],
+      "risks": ["Blight", "Wilt"]
+    },
+    {
+      "id": "fennel",
+      "name": "Fennel",
+      "emoji": "🌿",
+      "confidence": 76,
+      "yieldRange": "0.5 – 0.7 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Sandy soil + cool rabi = good aroma.",
+        "Spice premium pricing.",
+        "Low pest pressure."
+      ],
+      "companions": ["Coriander"],
+      "risks": ["Powdery mildew"]
+    }
+  ],
+  "sandy-zaid": [
+    {
+      "id": "watermelon",
+      "name": "Watermelon",
+      "emoji": "🍉",
+      "confidence": 86,
+      "yieldRange": "12 – 18 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Sandy soil prevents fruit rot.",
+        "Warm zaid temperatures drive sweetness.",
+        "Strong seasonal mandi prices."
+      ],
+      "companions": ["Marigold border"],
+      "risks": ["Fruit fly", "Anthracnose"]
+    },
+    {
+      "id": "muskmelon",
+      "name": "Muskmelon",
+      "emoji": "🍈",
+      "confidence": 80,
+      "yieldRange": "8 – 12 tonnes/acre",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Fast cycle suits zaid window.",
+        "Sandy drainage reduces disease.",
+        "Premium prices in urban retail."
+      ],
+      "companions": ["Marigold"],
+      "risks": ["Downy mildew", "Fruit fly"]
+    },
+    {
+      "id": "moth",
+      "name": "Moth bean",
+      "emoji": "🌱",
+      "confidence": 72,
+      "yieldRange": "0.3 – 0.5 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Tolerates extreme heat.",
+        "Restores soil nitrogen.",
+        "Traditional Rajasthan staple — stable demand."
+      ],
+      "companions": ["Pearl millet"],
+      "risks": ["Yellow mosaic"]
+    }
+  ],
+  "balanced": [
+    {
+      "id": "pulses",
+      "name": "Mixed Pulses",
+      "emoji": "🌱",
+      "confidence": 78,
+      "yieldRange": "0.6 – 0.9 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Restores soil nitrogen naturally.",
+        "Low input cost, reliable returns.",
+        "Protein demand is growing steadily."
+      ],
+      "companions": ["Sorghum", "Millet"],
+      "risks": ["Pod borer", "Wilt"]
+    },
+    {
+      "id": "millet",
+      "name": "Millets",
+      "emoji": "🌾",
+      "confidence": 76,
+      "yieldRange": "0.8 – 1.0 tonnes/acre",
+      "waterNeed": "Low",
+      "rationale": [
+        "Drought-tolerant.",
+        "Increasing global millet demand.",
+        "Short cycle suits varied soils."
+      ],
+      "companions": ["Pulses"],
+      "risks": ["Downy mildew"]
+    },
+    {
+      "id": "vegetables",
+      "name": "Kitchen garden mix",
+      "emoji": "🥬",
+      "confidence": 72,
+      "yieldRange": "Varies",
+      "waterNeed": "Medium",
+      "rationale": [
+        "Diversifies income.",
+        "Daily mandi cash flow.",
+        "Short cycles de-risk the season."
+      ],
+      "companions": ["Marigold for pest control"],
+      "risks": ["Aphids", "Leaf miner"]
+    }
+  ]
+}

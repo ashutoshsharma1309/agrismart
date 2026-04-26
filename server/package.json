@@ -1,0 +1,29 @@
+{
+  "name": "agrismart-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AgriSmart backend proxy — keeps the OpenWeatherMap API key server-side",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "@fastify/rate-limit": "^10.1.1",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.0.0",
+    "file-type": "^22.0.1",
+    "groq-sdk": "^1.1.2",
+    "node-cache": "^5.1.2",
+    "pino": "^9.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

@@ -1,0 +1,407 @@
+[
+  {
+    "id": "leaf-rust",
+    "name": "Leaf Rust",
+    "scientificName": "Puccinia triticina",
+    "severity": "moderate",
+    "cause": "Fungal spores carried on wind during humid, mild weather (15–22°C). Common in wheat and barley during early spring.",
+    "symptoms": [
+      "Orange-brown pustules on the upper leaf surface",
+      "Pustules rub off as rusty powder when touched",
+      "Leaves yellow and dry up prematurely"
+    ],
+    "chemicalTreatment": [
+      "Propiconazole 25% EC at 0.1% — one spray at first symptoms",
+      "Tebuconazole 250 EC at 1 ml/L if infection advances",
+      "Repeat after 10–12 days if rain continues"
+    ],
+    "organicTreatment": [
+      "Spray 5% neem oil solution weekly",
+      "Cow urine 1:10 with water as foliar spray",
+      "Trichoderma viride soil drench at tillering"
+    ],
+    "prevention": [
+      "Plant resistant varieties (HD-3226, PBW-723)",
+      "Rotate with non-cereal crops every 2 seasons",
+      "Remove volunteer wheat plants between seasons"
+    ]
+  },
+  {
+    "id": "black-spot",
+    "name": "Black Spot",
+    "scientificName": "Alternaria spp.",
+    "severity": "moderate",
+    "cause": "Fungal pathogen spread through warm, wet conditions and overhead watering. Common on rose, tomato and brinjal.",
+    "symptoms": [
+      "Dark circular spots on leaves with concentric rings",
+      "Yellow halos surrounding the spots",
+      "Premature defoliation"
+    ],
+    "chemicalTreatment": [
+      "Mancozeb 75% WP at 2 g/L — two sprays 10 days apart",
+      "Chlorothalonil at 2.5 g/L for persistent infections",
+      "Copper oxychloride 3 g/L as alternative"
+    ],
+    "organicTreatment": [
+      "Baking soda solution (1 tsp per litre) weekly",
+      "Neem oil 2% spray on infected plants",
+      "Milk solution 1:10 as foliar spray"
+    ],
+    "prevention": [
+      "Water at the base, avoid wetting leaves",
+      "Ensure 60cm spacing between plants for air flow",
+      "Remove and burn infected leaves"
+    ]
+  },
+  {
+    "id": "powdery-mildew",
+    "name": "Powdery Mildew",
+    "scientificName": "Erysiphe cichoracearum",
+    "severity": "mild",
+    "cause": "Fungal infection that thrives in warm days (20–27°C) and cool, humid nights. Common on cucurbits, grapes and peas.",
+    "symptoms": [
+      "White powdery coating on upper leaf surface",
+      "Leaves curl and become brittle",
+      "Stunted growth in severe cases"
+    ],
+    "chemicalTreatment": [
+      "Sulphur dust 20 kg/ha in early morning",
+      "Carbendazim 1 g/L as foliar spray",
+      "Triadimefon 0.5 ml/L at first sign"
+    ],
+    "organicTreatment": [
+      "Milk spray (1:9 dilution) every 4 days",
+      "Potassium bicarbonate solution 5 g/L",
+      "Garlic-chilli extract as foliar spray"
+    ],
+    "prevention": [
+      "Avoid overhead watering at dusk",
+      "Maintain airflow by proper spacing",
+      "Plant mildew-resistant varieties"
+    ]
+  },
+  {
+    "id": "early-blight",
+    "name": "Early Blight",
+    "scientificName": "Alternaria solani",
+    "severity": "moderate",
+    "cause": "Soil-borne fungus activated by warm humid weather. Affects potato, tomato and other Solanaceae.",
+    "symptoms": [
+      "Dark concentric lesions starting on lower leaves",
+      "Yellowing spreads upward through plant",
+      "Stem cankers in severe cases"
+    ],
+    "chemicalTreatment": [
+      "Mancozeb 2 g/L weekly foliar spray",
+      "Azoxystrobin 1 ml/L for rapid spread",
+      "Remove and destroy affected leaves"
+    ],
+    "organicTreatment": [
+      "Compost tea soil drench every 10 days",
+      "Neem cake in soil before sowing",
+      "Bordeaux mixture 1% every fortnight"
+    ],
+    "prevention": [
+      "Rotate crops — avoid Solanaceae for 3 years",
+      "Mulch to reduce soil splash",
+      "Stake plants so leaves don't touch soil"
+    ]
+  },
+  {
+    "id": "late-blight",
+    "name": "Late Blight",
+    "scientificName": "Phytophthora infestans",
+    "severity": "severe",
+    "cause": "Oomycete pathogen spreading rapidly in cool (10–20°C) wet weather. Caused the Irish potato famine.",
+    "symptoms": [
+      "Water-soaked grey-green spots on leaves",
+      "White downy mould on underside in humid weather",
+      "Rapid collapse of entire plants within days"
+    ],
+    "chemicalTreatment": [
+      "Metalaxyl + Mancozeb at 2.5 g/L — urgent",
+      "Cymoxanil + Mancozeb for systemic control",
+      "Remove and bury affected plants immediately"
+    ],
+    "organicTreatment": [
+      "Bordeaux mixture 1% at first sign",
+      "Trichoderma harzianum soil drench",
+      "Limit irrigation during cool damp spells"
+    ],
+    "prevention": [
+      "Plant resistant cultivars (Kufri Jyoti)",
+      "Avoid overhead irrigation",
+      "Destroy cull piles after harvest"
+    ]
+  },
+  {
+    "id": "mosaic-virus",
+    "name": "Mosaic Virus",
+    "scientificName": "Tobacco Mosaic Virus / Cucumber Mosaic Virus",
+    "severity": "severe",
+    "cause": "Viral infection transmitted by aphids and through contaminated tools. No cure once infected — management focuses on prevention.",
+    "symptoms": [
+      "Mottled light and dark green pattern on leaves",
+      "Leaves curl, crinkle and become leathery",
+      "Stunted plants with reduced yield"
+    ],
+    "chemicalTreatment": [
+      "No chemical cure — control aphid vectors with Imidacloprid 0.3 ml/L",
+      "Remove and burn infected plants immediately",
+      "Disinfect tools with 10% bleach between plants"
+    ],
+    "organicTreatment": [
+      "Neem oil to suppress aphid populations",
+      "Reflective mulch to repel aphids",
+      "Encourage ladybird beetles as biocontrol"
+    ],
+    "prevention": [
+      "Buy virus-free certified seed",
+      "Wash hands and tools regularly",
+      "Remove weeds that host virus"
+    ]
+  },
+  {
+    "id": "anthracnose",
+    "name": "Anthracnose",
+    "scientificName": "Colletotrichum spp.",
+    "severity": "moderate",
+    "cause": "Fungal infection triggered by warm (24–28°C) wet weather. Affects beans, mango, grape, chilli.",
+    "symptoms": [
+      "Sunken dark spots on fruit and pods",
+      "Pink spore masses in centre of lesions",
+      "Wilting of young shoots"
+    ],
+    "chemicalTreatment": [
+      "Mancozeb 2 g/L fortnightly from flowering",
+      "Carbendazim 1 g/L on fruit set",
+      "Copper oxychloride 3 g/L as preventive"
+    ],
+    "organicTreatment": [
+      "Trichoderma spray — foliar and soil drench",
+      "Cow urine 1:5 foliar spray",
+      "Neem oil 2% weekly"
+    ],
+    "prevention": [
+      "Prune for better airflow",
+      "Destroy infected plant debris",
+      "Avoid overhead watering during fruiting"
+    ]
+  },
+  {
+    "id": "downy-mildew",
+    "name": "Downy Mildew",
+    "scientificName": "Peronospora spp.",
+    "severity": "moderate",
+    "cause": "Oomycete spreading in cool (15–23°C) humid weather. Common on grapes, cucurbits and spinach.",
+    "symptoms": [
+      "Yellow angular patches on upper leaf surface",
+      "Greyish-purple fuzzy growth on underside",
+      "Leaves shrivel and drop"
+    ],
+    "chemicalTreatment": [
+      "Metalaxyl + Mancozeb 2.5 g/L at first sign",
+      "Cymoxanil foliar spray every 7 days",
+      "Fosetyl-aluminium as systemic option"
+    ],
+    "organicTreatment": [
+      "Bordeaux mixture 1% preventively",
+      "Horsetail tea foliar spray",
+      "Potassium silicate to strengthen leaves"
+    ],
+    "prevention": [
+      "Avoid evening irrigation",
+      "Space plants for air circulation",
+      "Rotate with non-host crops"
+    ]
+  },
+  {
+    "id": "bacterial-wilt",
+    "name": "Bacterial Wilt",
+    "scientificName": "Ralstonia solanacearum",
+    "severity": "severe",
+    "cause": "Soil-borne bacteria that enter through root wounds in warm, waterlogged conditions. No chemical cure.",
+    "symptoms": [
+      "Sudden wilting despite moist soil",
+      "White milky ooze from cut stems in water",
+      "Yellowing and plant death within a week"
+    ],
+    "chemicalTreatment": [
+      "No effective chemical — focus on crop rotation",
+      "Copper oxychloride soil drench as preventive",
+      "Bleaching powder 15 kg/ha for soil sterilisation"
+    ],
+    "organicTreatment": [
+      "Pseudomonas fluorescens soil drench",
+      "Trichoderma viride at sowing",
+      "Biofumigation with mustard green manure"
+    ],
+    "prevention": [
+      "Rotate with cereals for 3 years",
+      "Improve drainage — raised beds",
+      "Use resistant varieties"
+    ]
+  },
+  {
+    "id": "fusarium-wilt",
+    "name": "Fusarium Wilt",
+    "scientificName": "Fusarium oxysporum",
+    "severity": "severe",
+    "cause": "Persistent soil fungus entering through roots. Survives in soil for many years. Common on tomato, banana, cotton.",
+    "symptoms": [
+      "One-sided yellowing and wilting of leaves",
+      "Brown streaks in vascular tissue when stem is cut",
+      "Entire plant collapses eventually"
+    ],
+    "chemicalTreatment": [
+      "Carbendazim soil drench at 2 g/L",
+      "Remove and burn infected plants",
+      "Soil solarisation during summer"
+    ],
+    "organicTreatment": [
+      "Trichoderma viride at sowing and transplanting",
+      "Neem cake incorporated in soil",
+      "Arbuscular mycorrhiza treatment for roots"
+    ],
+    "prevention": [
+      "Plant resistant cultivars",
+      "Avoid replanting same family in same plot",
+      "Solarise infected soil in summer"
+    ]
+  },
+  {
+    "id": "leaf-curl",
+    "name": "Leaf Curl",
+    "scientificName": "Begomovirus",
+    "severity": "moderate",
+    "cause": "Virus transmitted by whiteflies. Affects tomato, chilli, cotton.",
+    "symptoms": [
+      "Upward curling and cupping of leaves",
+      "Yellowing between veins",
+      "Stunted growth and no fruit set"
+    ],
+    "chemicalTreatment": [
+      "Imidacloprid 0.3 ml/L for whitefly control",
+      "Acetamiprid 0.2 g/L as rotation",
+      "Remove infected plants promptly"
+    ],
+    "organicTreatment": [
+      "Neem oil 5% spray on undersides of leaves",
+      "Yellow sticky traps at 10/acre",
+      "Reflective silver mulch to repel whitefly"
+    ],
+    "prevention": [
+      "Buy virus-free seedlings",
+      "Barrier nets in nursery",
+      "Rotate with non-host crops"
+    ]
+  },
+  {
+    "id": "sheath-blight",
+    "name": "Sheath Blight",
+    "scientificName": "Rhizoctonia solani",
+    "severity": "moderate",
+    "cause": "Fungal disease of rice. Favoured by high nitrogen, dense canopy, and warm humid nights.",
+    "symptoms": [
+      "Oval lesions on sheath near water line",
+      "Lesions expand with grey centres and brown borders",
+      "Tiller death in severe cases"
+    ],
+    "chemicalTreatment": [
+      "Validamycin 2.5 ml/L at boot stage",
+      "Hexaconazole 2 ml/L as foliar spray",
+      "Propiconazole 1 ml/L"
+    ],
+    "organicTreatment": [
+      "Trichoderma harzianum seed treatment",
+      "Cow dung slurry foliar spray",
+      "Reduce nitrogen, split dose"
+    ],
+    "prevention": [
+      "Wider spacing between hills",
+      "Avoid over-fertilisation with nitrogen",
+      "Burn stubble after harvest"
+    ]
+  },
+  {
+    "id": "tikka-leaf-spot",
+    "name": "Tikka Leaf Spot",
+    "scientificName": "Cercospora arachidicola",
+    "severity": "moderate",
+    "cause": "Fungal leaf spot on groundnut, spread by wind and rain in warm humid weather.",
+    "symptoms": [
+      "Circular brown spots with yellow halo",
+      "Defoliation in severe infections",
+      "Reduced pod filling"
+    ],
+    "chemicalTreatment": [
+      "Chlorothalonil 2.5 g/L at 50 days",
+      "Mancozeb 2 g/L as alternative",
+      "Tebuconazole 1 ml/L if persistent"
+    ],
+    "organicTreatment": [
+      "Neem oil 5% every 10 days",
+      "Bordeaux mixture 1%",
+      "Trichoderma soil drench"
+    ],
+    "prevention": [
+      "Rotate groundnut with cereals",
+      "Wider spacing (30×15 cm)",
+      "Burn groundnut debris"
+    ]
+  },
+  {
+    "id": "stem-rust",
+    "name": "Stem Rust",
+    "scientificName": "Puccinia graminis",
+    "severity": "severe",
+    "cause": "Wind-borne fungal spores. Major wheat pathogen. Warm (20–25°C) humid weather triggers outbreaks.",
+    "symptoms": [
+      "Reddish-brown pustules on stems and leaf sheaths",
+      "Stems break or lodge in severe cases",
+      "Shrivelled grain"
+    ],
+    "chemicalTreatment": [
+      "Propiconazole 0.1% at first symptoms",
+      "Tebuconazole 1 ml/L for persistent infection",
+      "Two sprays 10 days apart if rain continues"
+    ],
+    "organicTreatment": [
+      "Neem + cow urine spray weekly",
+      "Trichoderma viride at tillering",
+      "Sulphur dust at early signs"
+    ],
+    "prevention": [
+      "Plant Ug99-resistant varieties",
+      "Destroy barberry hosts near fields",
+      "Avoid late sowing"
+    ]
+  },
+  {
+    "id": "root-rot",
+    "name": "Root Rot",
+    "scientificName": "Rhizoctonia / Pythium spp.",
+    "severity": "moderate",
+    "cause": "Multiple soil fungi that attack roots in waterlogged, compacted soils.",
+    "symptoms": [
+      "Stunted growth and yellowing",
+      "Roots turn dark, soft and mushy",
+      "Easy to pull plant out of soil"
+    ],
+    "chemicalTreatment": [
+      "Carbendazim drench at 1 g/L",
+      "Metalaxyl drench for Pythium",
+      "Remove infected plants"
+    ],
+    "organicTreatment": [
+      "Trichoderma at sowing",
+      "Pseudomonas fluorescens soil drench",
+      "Improve drainage with organic matter"
+    ],
+    "prevention": [
+      "Raised beds for heavy soils",
+      "Avoid overwatering",
+      "Add neem cake to soil"
+    ]
+  }
+]
