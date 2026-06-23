@@ -108,6 +108,29 @@ async function main() {
     logger.error(err, 'failed to start');
     process.exit(1);
   }
+
+  // Graceful shutdown: drain in-flight requests, then exit cleanly.
+  const shutdown = async (signal: string) => {
+    logger.info({ signal }, 'shutting down');
+    try {
+      await app.close();
+      process.exit(0);
+    } catch (err) {
+      logger.error(err, 'error during shutdown');
+      process.exit(1);
+    }
+  };
+  process.on('SIGTERM', () => void shutdown('SIGTERM'));
+  process.on('SIGINT', () => void shutdown('SIGINT'));
 }
+
+// Crash safety nets. Log via the structured logger; never silently die.
+process.on('unhandledRejection', (reason) => {
+  logger.error({ reason }, 'unhandledRejection');
+});
+process.on('uncaughtException', (err) => {
+  logger.error(err, 'uncaughtException');
+  process.exit(1);
+});
 
 void main();

@@ -29,11 +29,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           ref={ref}
           id={selectId}
           className={cn(
-            'h-11 w-full appearance-none rounded-xl border border-border bg-white pl-3.5 pr-10 text-sm text-ink',
-            'focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none',
+            'h-11 w-full appearance-none rounded-xl border border-border bg-white pl-3.5 pr-10 text-sm text-ink shadow-xs',
+            'focus:border-brand focus:ring-4 focus:ring-brand/12 focus:outline-none',
             'disabled:cursor-not-allowed disabled:bg-surface-2 disabled:opacity-70',
-            'transition',
-            error && 'border-danger focus:border-danger focus:ring-danger/20',
+            'transition duration-150',
+            error && 'border-danger focus:border-danger focus:ring-danger/15',
             className,
           )}
           {...rest}

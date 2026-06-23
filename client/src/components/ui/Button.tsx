@@ -28,12 +28,12 @@ const iconSizeMap: Record<Size, number> = {
 
 const variantMap: Record<Variant, string> = {
   primary:
-    'bg-brand text-white hover:bg-brand-600 active:bg-brand-700 shadow-sm hover:shadow-md disabled:bg-brand/60',
+    'bg-brand text-white shadow-sm shadow-brand/25 hover:bg-brand-600 hover:shadow-md active:bg-brand-700 disabled:bg-brand/60 [box-shadow:0_1px_2px_rgb(10_15_26/0.12),inset_0_1px_0_rgb(255_255_255/0.16)]',
   secondary:
-    'bg-white text-ink border border-border hover:bg-surface-2 active:bg-surface-3 shadow-sm',
-  ghost: 'bg-transparent text-ink hover:bg-surface-2 active:bg-surface-3',
-  destructive: 'bg-danger text-white hover:bg-danger/90 active:bg-danger/80 shadow-sm',
-  link: 'bg-transparent text-brand hover:underline underline-offset-4 px-0 h-auto',
+    'bg-white text-ink border border-border shadow-xs hover:bg-surface-2 hover:border-border-strong active:bg-surface-3',
+  ghost: 'bg-transparent text-ink-muted hover:bg-surface-2 hover:text-ink active:bg-surface-3',
+  destructive: 'bg-danger text-white shadow-sm shadow-danger/25 hover:bg-danger/90 active:bg-danger/80',
+  link: 'bg-transparent text-brand-700 hover:text-brand hover:underline underline-offset-4 px-0 h-auto',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -60,9 +60,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       type={type}
       disabled={disabled ?? loading}
       className={cn(
-        'inline-flex items-center justify-center rounded-xl font-semibold transition',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2',
-        'disabled:cursor-not-allowed disabled:opacity-60',
+        'inline-flex select-none items-center justify-center rounded-xl font-semibold transition duration-150',
+        'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/25 focus-visible:ring-offset-1 focus-visible:ring-offset-white',
+        variant !== 'link' && 'active:scale-[0.985]',
+        'disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100',
         variant !== 'link' && sizeMap[size],
         variantMap[variant],
         fullWidth && 'w-full',

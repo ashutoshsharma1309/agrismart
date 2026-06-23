@@ -78,7 +78,6 @@ const PROGRESS_STAGES: { key: string; i18n: string }[] = [
 export function DiseasePage() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as Lang;
-  const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [report, setReport] = useState<ReportView | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -88,6 +87,7 @@ export function DiseasePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const stageTimerRef = useRef<number | null>(null);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     return () => {
@@ -95,6 +95,13 @@ export function DiseasePage() {
       if (stageTimerRef.current) window.clearTimeout(stageTimerRef.current);
     };
   }, [previewUrl]);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   const handleFiles = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) return;
@@ -109,7 +116,6 @@ export function DiseasePage() {
     }
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     const url = URL.createObjectURL(f);
-    setFile(f);
     setPreviewUrl(url);
     setReport(null);
     setErrorReason(null);
@@ -126,9 +132,11 @@ export function DiseasePage() {
 
     try {
       const dataUrl = await fileToDataUrl(f);
+      if (!mountedRef.current) return;
       setStageIndex(1);
 
       const ai = await analyzeDisease({ image_data_url: dataUrl, lang });
+      if (!mountedRef.current) return;
       setStageIndex(2);
 
       if (ai.ok && ai.data) {
@@ -145,23 +153,25 @@ export function DiseasePage() {
       } else {
         setErrorReason(ai.ok ? null : ai.reason);
         const m = await analyseLeaf(f);
+        if (!mountedRef.current) return;
         setReport(normalizeFromMock(m));
         logActivity('disease', `${m.name} · ${m.severity} (offline)`);
       }
     } catch {
+      if (!mountedRef.current) return;
       setErrorReason('network_error');
       const m = await analyseLeaf(f);
+      if (!mountedRef.current) return;
       setReport(normalizeFromMock(m));
       logActivity('disease', `${m.name} · ${m.severity} (offline)`);
     } finally {
       if (stageTimerRef.current) window.clearTimeout(stageTimerRef.current);
-      setAnalyzing(false);
+      if (mountedRef.current) setAnalyzing(false);
     }
   };
 
   const reset = () => {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setFile(null);
     setPreviewUrl(null);
     setReport(null);
     setErrorReason(null);
@@ -253,8 +263,8 @@ export function DiseasePage() {
               <div className="relative overflow-hidden rounded-2xl border border-border bg-surface-2">
                 <img
                   src={previewUrl}
-                  alt={file?.name ?? 'Uploaded leaf'}
-                  className="h-[320px] w-full object-cover"
+                  alt="Photo of the crop leaf you uploaded"
+                  className="max-h-[320px] w-full object-contain"
                 />
                 {analyzing ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/80 backdrop-blur-sm">
@@ -301,11 +311,11 @@ export function DiseasePage() {
           )}
         </Card>
 
-        <div className="space-y-4 lg:col-span-2">
+        <div className="space-y-4 lg:col-span-2" role="status" aria-live="polite">
           {report ? (
             <ReportPanel report={report} errorReason={errorReason} />
           ) : errorReason && !analyzing ? (
-            <Card className="border-red-200 bg-red-50 text-sm text-red-900">
+            <Card role="alert" className="border-red-200 bg-red-50 text-sm text-red-900">
               {errorReason === 'image_too_large'
                 ? t('ai.error.imageTooLarge')
                 : errorReason === 'invalid_image'

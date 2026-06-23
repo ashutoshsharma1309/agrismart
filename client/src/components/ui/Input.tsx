@@ -31,14 +31,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           ref={ref}
           id={inputId}
           className={cn(
-            'h-11 w-full rounded-xl border border-border bg-white px-3.5 text-sm text-ink',
+            'h-11 w-full rounded-xl border border-border bg-white px-3.5 text-sm text-ink shadow-xs',
             'placeholder:text-ink-subtle',
-            'focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none',
+            'focus:border-brand focus:ring-4 focus:ring-brand/12 focus:outline-none',
             'disabled:cursor-not-allowed disabled:bg-surface-2 disabled:opacity-70',
-            'transition',
+            'transition duration-150',
             leadingIcon && 'pl-10',
             trailingElement && 'pr-10',
-            error && 'border-danger focus:border-danger focus:ring-danger/20',
+            error && 'border-danger focus:border-danger focus:ring-danger/15',
             className,
           )}
           {...rest}

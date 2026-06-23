@@ -48,7 +48,11 @@ function Hero() {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid-fade opacity-80" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full bg-brand-100 blur-3xl opacity-60"
+        className="pointer-events-none absolute -top-32 right-[-10%] h-[460px] w-[460px] rounded-full bg-brand-100/60 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-[-25%] left-[-8%] h-[360px] w-[360px] rounded-full bg-accent-100/40 blur-3xl"
       />
       <div className="container-page relative grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:items-center lg:gap-8">
         <div className="lg:col-span-6">
@@ -107,8 +111,8 @@ function TrustBar() {
       <div className="container-page grid grid-cols-2 gap-4 py-10 sm:grid-cols-4">
         {stats.map((s) => (
           <div key={s.label} className="text-center">
-            <div className="font-display text-3xl font-bold text-ink">{s.value}</div>
-            <div className="text-xs uppercase tracking-wide text-ink-subtle">{s.label}</div>
+            <div className="font-display text-3xl font-bold tracking-tighter text-ink sm:text-4xl">{s.value}</div>
+            <div className="mt-1 text-xs font-medium uppercase tracking-[0.1em] text-ink-subtle">{s.label}</div>
           </div>
         ))}
       </div>
@@ -139,9 +143,9 @@ function Features() {
           {items.map(({ icon: Icon, key }) => (
             <Card
               key={key}
-              className="group relative overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md"
+              className="group relative overflow-hidden transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"
             >
-              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100 transition group-hover:bg-brand-100">
                 <Icon size={20} />
               </div>
               <h3 className="mb-1.5 text-base font-semibold text-ink">
@@ -170,8 +174,8 @@ function HowItWorks() {
         </div>
         <div className="relative mt-12 grid gap-5 lg:grid-cols-3 lg:gap-8">
           {steps.map((s, i) => (
-            <div key={s} className="relative rounded-2xl border border-border bg-white p-6">
-              <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
+            <div key={s} className="relative rounded-2xl border border-border bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-sm font-bold text-white shadow-sm shadow-brand/30 ring-1 ring-inset ring-white/20">
                 {i + 1}
               </div>
               <h3 className="mb-1 text-lg font-semibold text-ink">
@@ -319,12 +323,12 @@ function Pricing() {
               className={
                 'flex flex-col rounded-2xl border p-7 ' +
                 (p.highlight
-                  ? 'relative border-brand bg-white shadow-lg'
-                  : 'border-border bg-white shadow-sm')
+                  ? 'relative border-brand bg-white shadow-lg ring-1 ring-brand/15 md:-my-2 md:scale-[1.02]'
+                  : 'border-border bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md')
               }
             >
               {p.highlight ? (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3 py-0.5 text-xs font-semibold text-white">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3 py-0.5 text-xs font-semibold text-white shadow-sm shadow-brand/30 ring-1 ring-inset ring-white/20">
                   Most popular
                 </div>
               ) : null}
@@ -380,7 +384,7 @@ function Faq() {
               <div key={id} className={i > 0 ? 'border-t border-border' : ''}>
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between gap-6 px-5 py-4 text-left hover:bg-surface-2"
+                  className="flex w-full items-center justify-between gap-6 px-5 py-4 text-left transition-colors duration-150 hover:bg-surface-2"
                   onClick={() => setOpen(isOpen ? null : id)}
                   aria-expanded={isOpen}
                 >

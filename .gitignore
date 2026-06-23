@@ -26,3 +26,9 @@ logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# OS files (any depth)
+**/.DS_Store

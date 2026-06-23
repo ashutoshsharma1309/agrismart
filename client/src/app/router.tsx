@@ -1,24 +1,50 @@
+import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { MarketingLayout } from './MarketingLayout';
 import { AppLayout } from './AppLayout';
 import { ProtectedRoute } from './session';
 import { LandingPage } from '../features/landing/LandingPage';
 import { LoginPage, SignupPage } from '../features/auth/LoginPage';
-import { DashboardPage } from '../features/dashboard/DashboardPage';
-import { AdvisoryPage } from '../features/advisory/AdvisoryPage';
-import { DiseasePage } from '../features/disease/DiseasePage';
-import { SoilPage } from '../features/soil/SoilPage';
-import { WeatherPage } from '../features/weather/WeatherPage';
-import { HistoryPage } from '../features/history/HistoryPage';
-import { ProfilePage } from '../features/profile/ProfilePage';
-import { ChatbotPage } from '../features/chatbot/ChatbotPage';
-import { SettingsPage } from '../features/settings/SettingsPage';
-import { KvkDirectoryPage } from '../features/kvk/KvkDirectoryPage';
 import { NotFoundPage } from '../features/NotFound';
+import { ErrorBoundary } from '../components/shared/ErrorBoundary';
+
+// Feature routes are code-split: each /app page loads on demand so the initial
+// bundle only carries the critical first-paint path (landing + auth + layouts).
+const DashboardPage = lazy(() =>
+  import('../features/dashboard/DashboardPage').then((m) => ({ default: m.DashboardPage })),
+);
+const AdvisoryPage = lazy(() =>
+  import('../features/advisory/AdvisoryPage').then((m) => ({ default: m.AdvisoryPage })),
+);
+const DiseasePage = lazy(() =>
+  import('../features/disease/DiseasePage').then((m) => ({ default: m.DiseasePage })),
+);
+const SoilPage = lazy(() =>
+  import('../features/soil/SoilPage').then((m) => ({ default: m.SoilPage })),
+);
+const WeatherPage = lazy(() =>
+  import('../features/weather/WeatherPage').then((m) => ({ default: m.WeatherPage })),
+);
+const HistoryPage = lazy(() =>
+  import('../features/history/HistoryPage').then((m) => ({ default: m.HistoryPage })),
+);
+const ProfilePage = lazy(() =>
+  import('../features/profile/ProfilePage').then((m) => ({ default: m.ProfilePage })),
+);
+const ChatbotPage = lazy(() =>
+  import('../features/chatbot/ChatbotPage').then((m) => ({ default: m.ChatbotPage })),
+);
+const SettingsPage = lazy(() =>
+  import('../features/settings/SettingsPage').then((m) => ({ default: m.SettingsPage })),
+);
+const KvkDirectoryPage = lazy(() =>
+  import('../features/kvk/KvkDirectoryPage').then((m) => ({ default: m.KvkDirectoryPage })),
+);
 
 export const router = createBrowserRouter([
   {
     element: <MarketingLayout />,
+    errorElement: <ErrorBoundary />,
     children: [
       { path: '/', element: <LandingPage /> },
       { path: '/login', element: <LoginPage /> },
@@ -27,6 +53,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/app',
+    errorElement: <ErrorBoundary />,
     element: (
       <ProtectedRoute>
         <AppLayout />

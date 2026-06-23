@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Mail, Lock } from 'lucide-react';
@@ -15,6 +15,11 @@ export function LoginPage() {
   const { t } = useTranslation();
   const { login } = useSession();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo =
+    typeof (location.state as { from?: unknown } | null)?.from === 'string'
+      ? (location.state as { from: string }).from
+      : '/app/dashboard';
 
   const schema = z.object({
     email: z.string().email(t('auth.validation.email')),
@@ -36,12 +41,12 @@ export function LoginPage() {
     const name = data.email.split('@')[0].replace(/[._]+/g, ' ').replace(/\b\w/g, (s) => s.toUpperCase());
     login(name || 'Farmer', data.email);
     toast.success(t('auth.welcome', { name: name || 'Farmer' }));
-    navigate('/app/dashboard');
+    navigate(redirectTo, { replace: true });
   };
 
   return (
     <AuthShell>
-      <Card className="mx-auto w-full max-w-md">
+      <Card className="mx-auto w-full max-w-md p-7 shadow-lg sm:p-8">
         <div className="mb-6 flex justify-center">
           <Logo />
         </div>
@@ -70,7 +75,7 @@ export function LoginPage() {
         </form>
         <div className="mt-6 text-center text-sm text-ink-muted">
           {t('auth.login.noAccount')}{' '}
-          <Link to="/signup" className="font-semibold text-brand hover:underline">
+          <Link to="/signup" className="font-semibold text-brand-700 transition-colors hover:text-brand hover:underline">
             {t('auth.login.createAccount')}
           </Link>
         </div>
@@ -83,6 +88,11 @@ export function SignupPage() {
   const { t } = useTranslation();
   const { login } = useSession();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo =
+    typeof (location.state as { from?: unknown } | null)?.from === 'string'
+      ? (location.state as { from: string }).from
+      : '/app/dashboard';
 
   const schema = z.object({
     name: z.string().min(2, t('auth.validation.name')),
@@ -104,12 +114,12 @@ export function SignupPage() {
     await new Promise((r) => setTimeout(r, 300));
     login(data.name, data.email);
     toast.success(t('auth.welcome', { name: data.name }));
-    navigate('/app/dashboard');
+    navigate(redirectTo, { replace: true });
   };
 
   return (
     <AuthShell>
-      <Card className="mx-auto w-full max-w-md">
+      <Card className="mx-auto w-full max-w-md p-7 shadow-lg sm:p-8">
         <div className="mb-6 flex justify-center">
           <Logo />
         </div>
@@ -144,7 +154,7 @@ export function SignupPage() {
         </form>
         <div className="mt-6 text-center text-sm text-ink-muted">
           {t('auth.signup.haveAccount')}{' '}
-          <Link to="/login" className="font-semibold text-brand hover:underline">
+          <Link to="/login" className="font-semibold text-brand-700 transition-colors hover:text-brand hover:underline">
             {t('auth.signup.login')}
           </Link>
         </div>
@@ -155,8 +165,9 @@ export function SignupPage() {
 
 function AuthShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-[calc(100vh-16rem)] bg-gradient-to-br from-brand-50 via-white to-surface-2 py-12 md:py-20">
-      <div className="container-page">{children}</div>
+    <div className="relative flex min-h-[calc(100vh-16rem)] items-center overflow-hidden bg-gradient-to-br from-brand-50 via-white to-surface-2 py-12 md:py-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid-fade opacity-60" />
+      <div className="container-page relative">{children}</div>
     </div>
   );
 }

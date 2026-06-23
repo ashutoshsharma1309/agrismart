@@ -196,14 +196,6 @@ export function SettingsPage() {
             <Stat label={t('settings.about.platform')} value="Web · MVP" />
           </div>
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <a href="#" className="inline-flex items-center gap-1.5 text-brand-600 hover:underline">
-              <Shield size={14} />
-              {t('settings.about.privacyPolicy')}
-            </a>
-            <a href="#" className="inline-flex items-center gap-1.5 text-brand-600 hover:underline">
-              <Info size={14} />
-              {t('settings.about.terms')}
-            </a>
             <a
               href="mailto:hello@agrismart.app"
               className="inline-flex items-center gap-1.5 text-brand-600 hover:underline"

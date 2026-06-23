@@ -297,13 +297,13 @@ export async function callGroqVision<T = string>(opts: VisionOpts<T>): Promise<G
     if (opts.schema) {
       const parsed = tryParseJson(content);
       if (parsed !== null) {
-        const validated = opts.schema.safeParse(parsed);
-        if (validated.success) {
-          return { ok: true, data: validated.data as T, usage };
+        const first = opts.schema.safeParse(parsed);
+        if (first.success) {
+          return { ok: true, data: first.data as T, usage };
         }
         logger.warn(
           {
-            errors: validated.error.issues.slice(0, 8).map((i) => ({
+            errors: first.error.issues.slice(0, 8).map((i) => ({
               path: i.path.join('.'),
               code: i.code,
               message: i.message,
@@ -311,8 +311,48 @@ export async function callGroqVision<T = string>(opts: VisionOpts<T>): Promise<G
             top_level_keys:
               parsed && typeof parsed === 'object' ? Object.keys(parsed) : null,
           },
-          'groq vision schema validation failed',
+          'groq vision schema validation failed (first attempt)',
         );
+      }
+
+      // Retry once with a stricter prompt appended, to squeeze valid JSON out.
+      const stricter = await withBackoff(async () => {
+        try {
+          return await groq().chat.completions.create({
+            model,
+            temperature: 0.1,
+            max_tokens: maxTokens,
+            response_format: { type: 'json_object' as const },
+            messages: [
+              { role: 'system', content: opts.system },
+              {
+                role: 'user',
+                content: [
+                  { type: 'text', text: opts.prompt },
+                  { type: 'image_url', image_url: { url: opts.imageDataUrl } },
+                ],
+              },
+              {
+                role: 'system',
+                content:
+                  'Your previous response was not valid JSON matching the schema. Return ONLY the JSON object, no prose, no code fences.',
+              },
+            ],
+          });
+        } catch (err) {
+          throw classify(err);
+        }
+      });
+      const retryContent = stricter.choices[0]?.message?.content ?? '';
+      const retryParsed = tryParseJson(retryContent);
+      if (retryParsed !== null) {
+        const second = opts.schema.safeParse(retryParsed);
+        if (second.success) {
+          usage.prompt_tokens += stricter.usage?.prompt_tokens ?? 0;
+          usage.completion_tokens += stricter.usage?.completion_tokens ?? 0;
+          usage.total_tokens += stricter.usage?.total_tokens ?? 0;
+          return { ok: true, data: second.data as T, usage };
+        }
       }
       return { ok: false, reason: 'schema_validation_failed' };
     }

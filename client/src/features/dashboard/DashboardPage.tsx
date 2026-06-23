@@ -260,14 +260,16 @@ export function DashboardPage() {
               <div className="h-[220px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={soilScores.map((s, i) => ({ name: `#${i + 1}`, score: s.score }))}>
-                    <CartesianGrid stroke="#E2E8F0" strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} stroke="#94A3B8" fontSize={12} />
-                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} stroke="#94A3B8" fontSize={12} />
+                    <CartesianGrid stroke="#EDEFF3" strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} stroke="#697586" fontSize={12} />
+                    <YAxis domain={[0, 100]} axisLine={false} tickLine={false} stroke="#697586" fontSize={12} />
                     <Tooltip
+                      cursor={{ stroke: '#CBD3DD', strokeWidth: 1 }}
                       contentStyle={{
                         background: 'white',
-                        border: '1px solid #E2E8F0',
+                        border: '1px solid #E4E8EC',
                         borderRadius: 12,
+                        boxShadow: '0 8px 22px -10px rgb(10 15 26 / 0.18)',
                         fontSize: 13,
                       }}
                     />
@@ -360,14 +362,20 @@ function KpiCard({
   suffix?: string;
   tone?: 'neutral' | 'warning';
 }) {
+  const warn = tone === 'warning';
   return (
-    <Card>
-      <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+    <Card className="transition duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md">
+      <div
+        className={
+          'mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ring-1 ring-inset ' +
+          (warn ? 'bg-amber-50 text-amber-700 ring-amber-100' : 'bg-brand-50 text-brand-700 ring-brand-100')
+        }
+      >
         {icon}
       </div>
-      <div className="text-xs font-medium uppercase tracking-wide text-ink-subtle">{label}</div>
+      <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-subtle">{label}</div>
       <div className="mt-1 flex items-baseline gap-1">
-        <span className={'font-display text-3xl font-bold ' + (tone === 'warning' ? 'text-amber-700' : 'text-ink')}>
+        <span className={'font-display text-3xl font-bold tracking-tight ' + (warn ? 'text-amber-700' : 'text-ink')}>
           {value}
         </span>
         {suffix ? <span className="text-xs text-ink-muted">{suffix}</span> : null}
@@ -388,15 +396,15 @@ function SessionTile({
   suffix?: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-white p-3">
-      <div className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-ink-subtle">
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-brand-50 text-brand-700">
+    <div className="rounded-xl border border-border-subtle bg-surface-2 p-3.5 transition duration-150 hover:border-border">
+      <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-subtle">
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100">
           {icon}
         </span>
         {label}
       </div>
       <div className="mt-1.5 flex items-baseline gap-1">
-        <span className="font-display text-2xl font-bold text-ink">{count}</span>
+        <span className="font-display text-2xl font-bold tracking-tight text-ink">{count}</span>
         {suffix ? <span className="text-xs text-ink-muted">{suffix}</span> : null}
       </div>
     </div>
@@ -431,9 +439,9 @@ function ShortcutLink({
   return (
     <Link
       to={to}
-      className="flex flex-col items-start gap-2 rounded-xl border border-border bg-white p-3 text-left transition hover:border-brand-200 hover:bg-brand-50/40"
+      className="group flex flex-col items-start gap-2 rounded-xl border border-border bg-white p-3.5 text-left shadow-xs transition duration-150 hover:-translate-y-0.5 hover:border-brand-200 hover:bg-brand-50/40 hover:shadow-sm"
     >
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+      <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100 transition group-hover:bg-brand-100">
         {icon}
       </div>
       <div className="text-sm font-semibold text-ink">{label}</div>

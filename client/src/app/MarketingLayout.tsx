@@ -23,7 +23,7 @@ export function MarketingLayout() {
     <div className="min-h-screen bg-surface">
       <header
         className={cn(
-          'sticky top-0 z-40 w-full bg-white/80 backdrop-blur transition',
+          'sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md transition duration-200 supports-[backdrop-filter]:bg-white/65',
           scrolled ? 'border-b border-border shadow-sm' : 'border-b border-transparent',
         )}
       >
@@ -32,16 +32,16 @@ export function MarketingLayout() {
             <Logo />
           </Link>
           <nav className="hidden items-center gap-7 md:flex">
-            <a href="#features" className="text-sm font-medium text-ink-muted hover:text-ink">
+            <a href="#features" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
               {t('nav.features')}
             </a>
-            <a href="#pricing" className="text-sm font-medium text-ink-muted hover:text-ink">
+            <a href="#pricing" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
               {t('nav.pricing')}
             </a>
-            <a href="#faq" className="text-sm font-medium text-ink-muted hover:text-ink">
+            <a href="#faq" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
               {t('nav.about')}
             </a>
-            <Link to="/login" className="text-sm font-medium text-ink-muted hover:text-ink">
+            <Link to="/login" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
               {t('nav.login')}
             </Link>
           </nav>
@@ -54,14 +54,14 @@ export function MarketingLayout() {
           <button
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink transition hover:bg-surface-2 md:hidden"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
         {mobileOpen ? (
-          <div className="border-t border-border bg-white md:hidden">
+          <div className="animate-fade-in border-t border-border bg-white md:hidden">
             <div className="container-page flex flex-col gap-3 py-4">
               <a href="#features" className="text-sm font-medium text-ink" onClick={() => setMobileOpen(false)}>
                 {t('nav.features')}
@@ -118,36 +118,27 @@ function Footer() {
         </div>
         <div className="flex flex-col gap-2">
           <h4 className="mb-1 text-sm font-semibold text-ink">{t('landing.footer.company')}</h4>
-          <a href="#" className="text-sm text-ink-muted hover:text-ink">
-            About
-          </a>
-          <a href="#" className="text-sm text-ink-muted hover:text-ink">
-            Careers
-          </a>
-          <a href="#" className="text-sm text-ink-muted hover:text-ink">
-            Press
-          </a>
+          <span className="text-sm text-ink-subtle">About</span>
+          <span className="text-sm text-ink-subtle">Careers</span>
+          <span className="text-sm text-ink-subtle">Press</span>
         </div>
         <div className="flex flex-col gap-2">
           <h4 className="mb-1 text-sm font-semibold text-ink">{t('landing.footer.resources')}</h4>
-          <a href="#" className="text-sm text-ink-muted hover:text-ink">
-            Docs
-          </a>
-          <a href="#" className="text-sm text-ink-muted hover:text-ink">
+          <span className="text-sm text-ink-subtle">Docs</span>
+          <a
+            href="mailto:hello@agrismart.app"
+            className="text-sm text-ink-muted hover:text-ink"
+          >
             Help centre
           </a>
-          <a href="#" className="text-sm text-ink-muted hover:text-ink">
-            Community
-          </a>
+          <span className="text-sm text-ink-subtle">Community</span>
         </div>
       </div>
       <div className="border-t border-border">
         <div className="container-page flex flex-col items-start justify-between gap-3 py-5 sm:flex-row sm:items-center">
           <p className="text-xs text-ink-subtle">{t('landing.footer.rights')}</p>
           <div className="flex items-center gap-4 text-xs text-ink-subtle">
-            <a href="#" className="hover:text-ink">
-              {t('landing.footer.legal')}
-            </a>
+            <span>{t('landing.footer.legal')}</span>
             <LanguageSwitcher compact />
           </div>
         </div>
