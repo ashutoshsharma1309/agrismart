@@ -22,6 +22,9 @@ const DiseasePage = lazy(() =>
 const SoilPage = lazy(() =>
   import('../features/soil/SoilPage').then((m) => ({ default: m.SoilPage })),
 );
+const SatellitePage = lazy(() =>
+  import('../features/satellite/SatellitePage').then((m) => ({ default: m.SatellitePage })),
+);
 const WeatherPage = lazy(() =>
   import('../features/weather/WeatherPage').then((m) => ({ default: m.WeatherPage })),
 );
@@ -65,6 +68,7 @@ export const router = createBrowserRouter([
       { path: 'advisory', element: <AdvisoryPage /> },
       { path: 'disease', element: <DiseasePage /> },
       { path: 'soil', element: <SoilPage /> },
+      { path: 'satellite', element: <SatellitePage /> },
       { path: 'weather', element: <WeatherPage /> },
       { path: 'history', element: <HistoryPage /> },
       { path: 'profile', element: <ProfilePage /> },

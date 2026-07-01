@@ -8,6 +8,7 @@ import { registerChatRoutes } from './routes/chat.js';
 import { registerAdvisoryRoutes } from './routes/advisory.js';
 import { registerSoilRoutes } from './routes/soil.js';
 import { registerDiseaseRoutes } from './routes/disease.js';
+import { registerSatelliteRoutes } from './routes/satellite.js';
 import { registerAdminRoutes } from './routes/admin.js';
 
 async function main() {
@@ -61,6 +62,12 @@ async function main() {
     { prefix: '' },
   );
 
+  // Satellite advisory — pure rule-engine, no upstream dependency. Covered by
+  // the global 60 req/IP/min limiter.
+  await app.register(async (scope) => {
+    await registerSatelliteRoutes(scope);
+  });
+
   await app.register(async (scope) => {
     await registerAdminRoutes(scope);
   });
@@ -85,6 +92,9 @@ async function main() {
       '/api/advisory/generate',
       '/api/soil/analyze',
       '/api/disease/analyze',
+      '/api/satellite/overview',
+      '/api/satellite/fields',
+      '/api/satellite/fields/:id',
       '/api/admin/usage',
     ],
     groq_configured: isGroqConfigured,
