@@ -4,6 +4,7 @@ import { MarketingLayout } from './MarketingLayout';
 import { AppLayout } from './AppLayout';
 import { ProtectedRoute } from './session';
 import { LandingPage } from '../features/landing/LandingPage';
+import { SatelliteLandingPage } from '../features/satellite/SatelliteLandingPage';
 import { LoginPage, SignupPage } from '../features/auth/LoginPage';
 import { NotFoundPage } from '../features/NotFound';
 import { ErrorBoundary } from '../components/shared/ErrorBoundary';
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorBoundary />,
     children: [
       { path: '/', element: <LandingPage /> },
+      { path: '/satellite', element: <SatelliteLandingPage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/signup', element: <SignupPage /> },
     ],

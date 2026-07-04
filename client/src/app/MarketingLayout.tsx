@@ -41,6 +41,9 @@ export function MarketingLayout() {
             <a href="#faq" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
               {t('nav.about')}
             </a>
+            <Link to="/satellite" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
+              {t('nav.satellite')}
+            </Link>
             <Link to="/login" className="text-sm font-medium text-ink-muted transition-colors duration-150 hover:text-ink">
               {t('nav.login')}
             </Link>
@@ -72,6 +75,9 @@ export function MarketingLayout() {
               <a href="#faq" className="text-sm font-medium text-ink" onClick={() => setMobileOpen(false)}>
                 {t('nav.about')}
               </a>
+              <Link to="/satellite" className="text-sm font-medium text-ink" onClick={() => setMobileOpen(false)}>
+                {t('nav.satellite')}
+              </Link>
               <Link to="/login" className="text-sm font-medium text-ink" onClick={() => setMobileOpen(false)}>
                 {t('nav.login')}
               </Link>
