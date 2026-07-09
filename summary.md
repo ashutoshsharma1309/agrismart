@@ -123,3 +123,36 @@ Supported languages: **English (en), Hindi (hi), Kannada (kn), Tamil (ta), Telug
 
 ---
 
+## 3. Architecture
+
+### Overall architecture
+
+A **two-tier monorepo**: a static SPA frontend and a stateless-ish (in-memory only) API proxy
+backend. There is no shared database; the backend never persists data to disk. All user data lives
+in the browser (`localStorage` / `sessionStorage`); all server state (caches, rate-limit counters,
+chat history, usage tallies) is **in-memory** and ephemeral.
+
+The backend exists primarily as a **secrets boundary and hardening layer** — it holds the
+OpenWeatherMap and Groq keys, validates/schemas every request and every LLM response, rate-limits,
+caches, and provides graceful degradation. The client never sees a provider key or domain.
+
+```mermaid
+graph LR
+  subgraph Client
+    Router["React Router<br/>(createBrowserRouter)"]
+    Ctx["Context providers<br/>Session · Profile · Chat"]
+    Clients["API clients<br/>ai-client · weather-client · satellite-client"]
+    Router --> Ctx --> Clients
+  end
+  subgraph Server["Fastify app (index.ts)"]
+    RL["Rate-limit scopes"]
+    Routes["Route registrars"]
+    Prompts["Zod schemas + prompts"]
+    Services["Services:<br/>groq · openweather · alerts ·<br/>satellite-engine · soil-baseline"]
+    Libs["Libs:<br/>cache · llm-cache · ai-rate-limit ·<br/>usage · logger · errors"]
+    RL --> Routes --> Prompts
+    Routes --> Services --> Libs
+  end
+  Clients -->|JSON| RL
+```
+
