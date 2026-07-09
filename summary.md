@@ -252,3 +252,31 @@ agrismart/
 
 ## 4. Tech Stack
 
+### Client
+
+- **Language:** TypeScript (`~6.0.2` per package.json; ESM, `"type": "module"`).
+- **Framework/Build:** React `19.2`, Vite `8`, `@vitejs/plugin-react`.
+- **Routing:** `react-router-dom` v7 (`createBrowserRouter`).
+- **Styling:** Tailwind CSS `3.4` + `@tailwindcss/forms` + `@tailwindcss/typography`, PostCSS, Autoprefixer.
+- **Forms/Validation:** `react-hook-form` + `@hookform/resolvers` + **Zod v4**.
+- **Charts:** `recharts` v3.
+- **Animation:** `framer-motion` v12.
+- **Icons:** `lucide-react`.
+- **i18n:** `i18next` + `react-i18next`.
+- **Toasts:** `sonner`.
+- **Fonts:** `@fontsource/*` — Inter, Plus Jakarta Sans (Latin) + Noto Sans Devanagari/Kannada/Tamil/Telugu (lazy).
+- **Utilities:** `clsx`, `tailwind-merge` (combined in `lib/utils.ts` as `cn`).
+- **Lint:** ESLint 9 + `typescript-eslint` + React hooks/refresh plugins.
+
+### Server
+
+- **Language:** TypeScript `5.6` (ESM). Dev runtime `tsx watch`.
+- **Framework:** Fastify `5`.
+- **Fastify plugins:** `@fastify/cors`, `@fastify/rate-limit`.
+- **LLM SDK:** `groq-sdk` (LLaMA 3.3 70B text; LLaMA 4 Scout 17B vision).
+- **Validation:** **Zod v3** (note: server is Zod 3, client is Zod 4).
+- **Caching:** `node-cache` (in-memory).
+- **Logging:** `pino` (structured, with secret redaction).
+- **Image sniffing:** `file-type` (magic-byte MIME check on disease uploads).
+- **Env:** `dotenv`.
+
