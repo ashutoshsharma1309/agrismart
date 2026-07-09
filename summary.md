@@ -498,3 +498,21 @@ encode safety rules, calibration, and language handling. Edit deliberately.
 | `utils.ts` | `cn` (clsx+tailwind-merge), `clamp`, `wait`, `randomDelay`, `hashString`. |
 | `weather-fallback.ts` | Deterministic offline weather seed. |
 
+### Client app shell / contexts
+
+- `session.tsx` — `SessionProvider`, `useSession`, `ProtectedRoute`.
+- `profile.tsx` — `ProfileProvider`, `useProfile`, `FarmerProfile` type.
+- `chatbot/ChatContext.tsx` — chat state, `send()` (real→fallback), per-language transcripts,
+  conversation id, offline mock fallback.
+
+---
+
+## 7. API Documentation
+
+**Base URL:** `VITE_API_BASE_URL` (default `http://localhost:4000`). **Auth:** none for feature
+routes (an optional `X-User-Id` header keys AI rate-limits); bearer token only for `/api/admin/usage`.
+**CORS:** methods `GET, POST`; allowed headers `Content-Type, Authorization, X-User-Id`.
+
+**Common envelope:** success `{ ok: true, data, cached? }` (chat uses a flat shape); error
+`{ ok: false, reason, details? }`.
+
