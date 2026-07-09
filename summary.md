@@ -967,3 +967,28 @@ called out in README/DEPLOYMENT/docs.
 
 ---
 
+## 19. AI Development Context
+
+*Guidance specifically for AI assistants extending this project.*
+
+### How to add a new AI-backed feature (canonical pattern)
+
+Follow the existing advisory/soil/disease shape exactly:
+
+1. **Server prompt module** — create `server/src/prompts/<feature>.ts` exporting: input Zod schema,
+   output Zod schema (if structured), `<feature>SystemPrompt(lang)` and `<feature>UserPrompt(...)`.
+   Bake safety/calibration/language rules into the system prompt.
+2. **Server route** — create `server/src/routes/<feature>.ts` with `register<Feature>Routes(app)`.
+   Order of operations (copy from an existing route): Zod-validate body → `groqStatus.configured()`
+   guard (503) → `checkAiLimits` (429) → `llmCacheKey`+`llmCache.get` → `beginActive` →
+   `callGroq(...)` in try/finally with `endActive` → on success `trackUsage` + `llmCache.set` →
+   return `{ ok, data, cached }`. Provide a rule-based/offline fallback where feasible.
+3. **Register** the route in `server/src/index.ts` inside the AI rate-limit scope, and add its path
+   to the `/` route index.
+4. **Client types + call** — add request/response types (mirroring the server schema) and a
+   `post<T>(...)` wrapper in `client/src/lib/ai-client.ts`.
+5. **Client feature folder** — `client/src/features/<feature>/<Feature>Page.tsx`; lazy-register it
+   in `client/src/app/router.tsx`; add a nav item in `AppLayout.tsx`.
+6. **i18n** — add keys to **all six** dictionaries (`client/src/i18n/*.json`); English is the fallback.
+7. **History/activity** (optional) — record via `lib/history.ts` / `lib/session-activity.ts`.
+
