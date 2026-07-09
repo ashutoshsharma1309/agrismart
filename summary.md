@@ -870,3 +870,21 @@ treatment. This makes "AI confidently recommends wrong dose" structurally imposs
 ### Prerequisites
 - Node.js **22+**, npm. (Client `package.json` pins TypeScript ~6 and Vite 8; ensure a matching Node.)
 
+### Backend
+```bash
+cd server
+npm install
+cp .env.example .env      # then fill values (at minimum OPENWEATHER_API_KEY)
+npm run dev               # tsx watch → http://localhost:4000
+```
+Minimum env: `OPENWEATHER_API_KEY` (required). `GROQ_API_KEY` optional — without it, AI features
+return 503 and the client falls back to rule-based/offline responses. Satellite needs **no** key.
+
+### Frontend
+```bash
+cd client
+npm install
+npm run dev               # Vite → http://localhost:5173
+```
+Optional: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
+
