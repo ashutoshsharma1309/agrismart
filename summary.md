@@ -592,3 +592,24 @@ escalation). **Safety gates re-applied server-side.** Errors: `413 image_too_lar
 
 ---
 
+## 8. Database / Persistence
+
+**There is no database.** Persistence is split between the browser and ephemeral server memory.
+
+### Client persistence (browser)
+
+`localStorage`, all namespaced `agrismart.*` (`lib/storage.ts`):
+
+| Key | Contents |
+|---|---|
+| `agrismart.lang` | Selected language code |
+| `agrismart.session` | Mock session `{ loggedIn, name, email }` |
+| `agrismart.profile` | `FarmerProfile` (name, phone, state, district, farmSize, crops, language) |
+| `agrismart.history` | Last 50 `HistoryItem` (advisory/disease/soil) |
+| `agrismart.chat` | Per-language chat transcripts + `agrismart.chat.cid` conversation id |
+| `agrismart.soilScores` | Last 8 soil-score trend points |
+| `agrismart.weather.saved` | Saved weather locations |
+| `agrismart.settings` | App settings toggles |
+
+`sessionStorage`: `agrismart.session_activity` (last 30 recent-activity entries; cleared on tab close).
+
