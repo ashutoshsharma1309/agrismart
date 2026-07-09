@@ -535,3 +535,45 @@ routes (an optional `X-User-Id` header keys AI rate-limits); bearer token only f
 
 `lat ∈ [-90,90]`, `lon ∈ [-180,180]`, `lang ∈ {en,hi,kn,ta,te,mr}`.
 
+### AI routes (POST JSON; 30 req/IP/min + service-layer hourly limits)
+
+**`POST /api/chat/message`**
+```jsonc
+// Request
+{ "conversation_id": "c_...", "message": "…(≤2000)", "lang": "en",
+  "profile": { "name?":"", "state?":"", "district?":"", "village?":"",
+               "farm_size_acres?":0, "primary_soil?":"", "secondary_soil?":"",
+               "irrigation?":"", "primary_crops?":[] } }
+// Success (flat, not data-wrapped)
+{ "ok": true, "reply": "…", "tokens": 512, "grounded": true }
+// LLM down: { "ok": true, "reply": "<localized fallback>", "fallback_used": true, "reason": "…" }
+```
+
+**`POST /api/advisory/generate`** — body = `AdvisoryInput` (`location`, `primary_soil`, optional
+`secondary_soil`, `sowing_month`, `season`, `farm_size_acres`, `irrigation`, `budget_per_acre_inr`,
+`risk_preference`, `experience`, `preferred_crops`, `previous_crop`, `lang`). Response `data` =
+`AdvisoryResponse` (ranked `recommendations[]` with varieties/economics/timeline/requirements/risks,
+`cropping_strategies[]`, `general_advice`, `caveats`, escalation flags). 503 if Groq unconfigured.
+
+**`POST /api/soil/analyze`** — body = `SoilInput` (`nitrogen_kg_ha`, `phosphorus_kg_ha`,
+`potassium_kg_ha`, `ph 3–10`, `organic_carbon_pct`, `intended_crop`, optional intended
+fertilizer/pesticide, `lang`). Response `data` = `SoilResponse` (`soil_health_score` **from rule
+engine**, `eco_fertilizer`, `eco_pesticide`, `improvement_plan[3]`, `warnings[]`). If Groq
+unconfigured → 503 **with `baseline` attached**; if Groq errors mid-call → 200 with the rule-engine
+baseline and `fallback_used: true`.
+
+**`POST /api/disease/analyze`** — body `{ image_data_url: "data:image/(jpeg|png|webp);base64,…",
+crop_context?, lang }`. Server checks size (≤6 MB base64), magic-byte MIME, then Groq vision.
+Response `data` = `DiseaseResponse` (primary + differential diagnoses, calibrated confidence,
+severity, structured treatment with gated `synthetic_chemical`, image-quality assessment,
+escalation). **Safety gates re-applied server-side.** Errors: `413 image_too_large`,
+`400 invalid_image`, `503 upstream_auth_failed`, `429`, `502`.
+
+### Satellite (GET; global limiter only; always available)
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/satellite/overview` | Region stats: total fields/area, stressed count, irrigation-needed count, crop distribution |
+| GET | `/api/satellite/fields` | All fields as `FieldSummary[]` |
+| GET | `/api/satellite/fields/:id` | Full `FieldAnalysis` (404 if unknown id) |
+
