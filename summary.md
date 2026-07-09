@@ -644,3 +644,18 @@ erDiagram
 
 ---
 
+## 9. Authentication & Authorization
+
+> **Important:** Authentication is a **client-side demo/mock**. Treat this as a prototype boundary
+> to harden, not production security.
+
+### Login flow
+
+1. `LoginPage`/`SignupPage` use `react-hook-form` + Zod (`email` valid, `password` ≥6 chars).
+2. On submit: a 300 ms artificial delay, then a display name is derived from the email local-part;
+   `useSession().login(name, email)` stores `{ loggedIn:true, name, email }` in `localStorage`.
+3. **No network call, no password verification, no user record.** Any valid-format email + any
+   ≥6-char password "logs in."
+4. `ProtectedRoute` gates `/app/*`; unauthenticated users are redirected to `/login` (preserving
+   `from`). Sessions sync across tabs via the `storage` event. Logout clears the key.
+
