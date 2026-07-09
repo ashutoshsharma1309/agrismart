@@ -280,3 +280,16 @@ agrismart/
 - **Image sniffing:** `file-type` (magic-byte MIME check on disease uploads).
 - **Env:** `dotenv`.
 
+### Build tools & package managers
+
+- **Package manager:** npm (per-package `package-lock.json`; no workspace root — each of `client/`
+  and `server/` is installed and built independently).
+- **Node:** 22+ required.
+- **Client build:** `tsc -b && vite build` → `client/dist`.
+- **Server build:** `tsc -p tsconfig.json` → `server/dist` (run with `node dist/index.js`).
+
+### Databases
+
+- **None.** No SQL/NoSQL database, no ORM, no migrations. Persistence is browser storage +
+  ephemeral in-memory server caches. See [§8](#8-database--persistence).
+
