@@ -424,3 +424,77 @@ then exit 1.
 
 ## 6. Components / Modules
 
+### Server modules
+
+#### `config.ts`
+- **Purpose:** Validate and expose all environment configuration.
+- **Public interface:** `config` (typed, validated), `isPlaceholderKey`, `isGroqConfigured`.
+- **Internal workflow:** Zod schema with defaults + transforms (string→number, URL checks);
+  `safeParse` → throw on failure. Sentinels detect placeholder keys.
+
+#### `services/groq.ts`
+- **Purpose:** The sole LLM gateway (text + vision).
+- **Responsibilities:** lazy client init, retry/backoff, error classification (`classify`), JSON
+  extraction (`tryParseJson`, strips code fences / extracts first `{…}`), schema-validate with one
+  stricter retry, token usage accounting, PII-safe logging (never logs prompt/response content).
+- **Public interface:** `callGroq<T>(opts)`, `callGroqVision<T>(opts)`, `groqStatus.configured()`,
+  `GroqResult<T>`, `TokenUsage`, `GroqError`.
+- **Dependencies:** `groq-sdk`, `config`, `logger`, `zod`.
+
+#### `services/openweather.ts`
+- **Purpose:** Adapter for OpenWeatherMap current/forecast/geocode.
+- **Responsibilities:** key-redacting fetch (`ow`), normalize raw payloads, bucket 3-hourly forecast
+  into ≤5 daily summaries, fresh+stale caching with stale-serve on failure, reachability probe.
+- **Public interface:** `getCurrentWeather`, `getForecast`, `geocode`, `isUpstreamReachable`, plus
+  the normalized types (`CurrentWeather`, `ForecastResponse`, `ForecastDay`, `GeocodeResult`).
+
+#### `services/alerts.ts`
+- **Purpose:** Derive weather alerts from a forecast via threshold rules.
+- **Internal workflow:** Rule table (heat_wave ≥38/41 °C, heavy_rain ≥50/100 mm, high_wind
+  ≥12/18 m/s, cold_snap ≤5/2 °C); groups consecutive matching days into runs; localizes strings via
+  `i18n/alerts.ts`.
+- **Public interface:** `deriveAlerts(forecast, lang)`, `DerivedAlert`.
+
+#### `services/satellite-engine.ts`
+- **Purpose:** Deterministic crop/stage/stress/irrigation analysis. See [§13](#13-important-algorithms).
+- **Public interface:** `classifyCrop`, `detectStage`, `detectMoistureStress`, `irrigationAdvisory`,
+  `analyzeField`, `summarizeField`, `CROP_LIBRARY`, and all result types.
+- **Dependencies:** only `data/satellite-fields.ts` types. No LLM, no network.
+
+#### `services/soil-baseline.ts`
+- **Purpose:** Rule-based soil health score + fertilizer/pesticide recommendation + 3-step plan.
+  Ported from the client engine; used as LLM grounding **and** fallback.
+- **Public interface:** `analyseSoil(input)`, `BaselineResult`.
+
+#### `lib/` utilities
+- `cache.ts` — fresh + stale `node-cache`, `cacheKey`, `storeBoth`.
+- `llm-cache.ts` — LLM output cache, `llmCacheKey`, `sha256`, `ttl` helpers.
+- `ai-rate-limit.ts` — per-user (60/h; chat 100/h) + per-IP (120/h) hourly counters + per-endpoint
+  concurrency gate (max 20 concurrent). `identityFromReq`, `checkAiLimits`, `beginActive`/`endActive`.
+- `usage.ts` — token + estimated-USD tallies per model; `trackUsage`, `usageSnapshot`.
+- `logger.ts` — pino with aggressive secret redaction.
+- `errors.ts` — `UpstreamError`, `statusForReason`.
+
+#### `prompts/`
+Each file exports: the input Zod schema, the output Zod schema (for structured features), and
+`*SystemPrompt(lang)` / `*UserPrompt(input, …)` builders. These are the heart of AI behaviour and
+encode safety rules, calibration, and language handling. Edit deliberately.
+
+### Client modules (`lib/`)
+
+| Module | Purpose |
+|---|---|
+| `ai-client.ts` | Typed POST client for chat/advisory/soil/disease; `X-User-Id` header; `fileToDataUrl` canvas downscale (≤1280px, JPEG 0.85). Types **mirror server schemas**. |
+| `weather-client.ts` | Typed GET client for weather/forecast/alerts/geocode. |
+| `satellite-client.ts` | Typed GET client for satellite overview/fields/analysis. |
+| `soil-engine.ts` | Client-side soil rule engine (used by the offline mock path). |
+| `mock-api.ts` | Legacy/offline layer: scripted advisory/disease/chat + weather bridge. Chatbot fallback. |
+| `intent.ts` | Keyword intent detector (multilingual) for the offline chat fallback. |
+| `history.ts` | localStorage history + soil-score trend. |
+| `session-activity.ts` | sessionStorage recent-activity strip. |
+| `settings.ts` | App settings in localStorage + `agrismart:settings` event. |
+| `storage.ts` | Namespaced localStorage JSON helpers + `storageKeys`. |
+| `constants.ts` | Indian states / cities / crops / fertilizers / pesticides lists. |
+| `utils.ts` | `cn` (clsx+tailwind-merge), `clamp`, `wait`, `randomDelay`, `hashString`. |
+| `weather-fallback.ts` | Deterministic offline weather seed. |
+
