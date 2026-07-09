@@ -400,3 +400,18 @@ sequenceDiagram
 - **None** (no schedulers/cron/queues). `node-cache` runs internal TTL sweep timers
   (`checkperiod`), but there are no application background jobs.
 
+### Caching
+
+Four in-memory `node-cache` instances (see [§8](#8-database--persistence)): weather fresh cache,
+weather stale cache (6 h, for degradation), LLM output cache (advisory/soil 1 day, disease 7 days),
+and per-conversation chat history + per-user weather-context cache in the chat route.
+
+### Error handling
+
+- Services throw typed errors (`UpstreamError`, `GroqError`) with a `reason`; routes map reasons →
+  HTTP status and a `{ ok:false, reason }` envelope.
+- Groq calls are wrapped in retry+backoff (1 s, 3 s) for retryable classes (5xx/429/network/timeout).
+- LLM schema failures trigger one stricter retry, then return `schema_validation_failed`.
+- Client wraps `fetch` so network errors surface as `{ ok:false, reason:'network_error' }`; UI
+  degrades to fallbacks/toasts. `ErrorBoundary` catches render errors per route tree.
+
