@@ -992,3 +992,18 @@ Follow the existing advisory/soil/disease shape exactly:
 6. **i18n** — add keys to **all six** dictionaries (`client/src/i18n/*.json`); English is the fallback.
 7. **History/activity** (optional) — record via `lib/history.ts` / `lib/session-activity.ts`.
 
+### For a non-AI (deterministic) feature
+
+Mirror the **satellite** module: put pure logic in `server/src/services/<feature>-engine.ts`
+(fixtures in `server/src/data/`), expose GET routes returning `{ ok, data }`, add a typed
+`client/src/lib/<feature>-client.ts`, build the page.
+
+### Coding conventions to follow
+
+- Keep the **secrets boundary**: never import a provider SDK, domain, or key in any `client/` file.
+- Validate at every boundary with Zod. Return result unions from services; envelopes from routes.
+- Log PII-safe on the server; never log prompt/response content or secrets.
+- Match snake_case for API/LLM JSON fields; camelCase in TS logic.
+- Preserve and update the explanatory comments — especially around safety gates and caching.
+- Add all six languages when adding user-facing strings.
+
