@@ -806,3 +806,17 @@ index = 0.40·soilScore + 0.30·ndwiScore + 0.15·trendScore + 0.15·sarRatioSco
 where components come from SAR-derived soil moisture, NDWI, 3-pass slopes, and the VV−VH ratio
 (widens as canopies dry). Bands: none <20, mild 20–39, moderate 40–63, severe ≥64.
 
+### Irrigation advisory
+
+FAO-56-style stage crop coefficient `Kc` (establishment 0.45 → reproductive 1.15 → harvest 0.35)
+sets a target root-zone moisture; deficit vs current SAR soil moisture drives depth (mm) and total
+volume (1 mm over 1 ha = 10,000 L). Combined with the stress index it selects
+`irrigate_now / irrigate_soon / adequate / reduce`, with priority and a natural-language rationale.
+
+### Soil health score (`soil-baseline.ts` / `soil-engine.ts`)
+
+Five equally-weighted (0.2 each) normalized sub-scores: N/80, P/60, K/80, pH proximity to 6.75, and
+organic-carbon/1.0, each clamped to [0,1], ×100. Fertilizer choice is a priority cascade (low N →
+high OC → low P → low K → balanced), plus pH lime/gypsum notes and a curated **pesticide-swap table**
+(e.g. chlorpyrifos → 5% neem oil, monocrotophos → Trichogramma + Bt).
+
