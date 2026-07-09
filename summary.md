@@ -865,3 +865,8 @@ treatment. This makes "AI confidently recommends wrong dose" structurally imposs
 
 ---
 
+## 15. Build & Run Instructions
+
+### Prerequisites
+- Node.js **22+**, npm. (Client `package.json` pins TypeScript ~6 and Vite 8; ensure a matching Node.)
+
