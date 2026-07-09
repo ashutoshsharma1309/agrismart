@@ -687,3 +687,29 @@ erDiagram
 
 ## 10. Configuration
 
+### Server environment variables (validated by `config.ts`)
+
+| Variable | Required | Default | Notes |
+|---|---|---|---|
+| `PORT` | no | `4000` | Listen port; binds `0.0.0.0` |
+| `OPENWEATHER_API_KEY` | **yes** | — | Min length 10. Placeholder value rejected at runtime |
+| `OPENWEATHER_BASE_URL` | no | `https://api.openweathermap.org/data/2.5` | |
+| `OPENWEATHER_GEO_URL` | no | `https://api.openweathermap.org/geo/1.0` | |
+| `ALLOWED_ORIGIN` | no | `http://localhost:5173` | Comma-separated CORS origins; **set to prod client URL** |
+| `CACHE_TTL_SECONDS` | no | `600` | Min 300 |
+| `LOG_LEVEL` | no | `info` | `trace…fatal` |
+| `GROQ_API_KEY` | no | `''` | Enables AI features; must be >10 chars and not the placeholder |
+| `GROQ_BASE_URL` | no | `https://api.groq.com` | SDK appends `/openai/v1` |
+| `GROQ_MODEL_TEXT` | no | `llama-3.3-70b-versatile` | |
+| `GROQ_MODEL_VISION` | no | `meta-llama/llama-4-scout-17b-16e-instruct` | |
+| `GROQ_MAX_TOKENS` | no | `1024` (`.env.example` sets `4500`) | Max 8192; hard cap on completions |
+| `GROQ_TIMEOUT_MS` | no | `30000` | Max 120000 |
+| `ADMIN_TOKEN` | no | `''` | Bearer token for `/api/admin/usage`; empty = deny all |
+| `NODE_ENV` | no | — | Set `production` in prod (Dockerfile does) |
+
+### Client environment variables (Vite, **build-time** inlined)
+
+| Variable | Required | Notes |
+|---|---|---|
+| `VITE_API_BASE_URL` | **yes** for prod | Public URL of the server. Defaults to `http://localhost:4000` in code |
+
