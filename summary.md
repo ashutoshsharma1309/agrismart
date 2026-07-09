@@ -671,3 +671,19 @@ erDiagram
 - The only server-side authorization is the **admin bearer token** on `/api/admin/usage`
   (constant-time `timingSafeEqual`; denies when `ADMIN_TOKEN` is empty).
 
+### Security mechanisms actually in place (server)
+
+- Provider keys are server-only; the client never references a provider SDK/domain/key (enforced by
+  convention + comments in client files).
+- Zod-validated env (fail-fast) and Zod-validated request bodies/queries.
+- Layered rate-limiting (global 60/IP/min; weather & AI scopes 30/IP/min; service-layer per-user/IP
+  hourly + concurrency gate).
+- CORS restricted to `ALLOWED_ORIGIN`.
+- Structured logging with secret redaction; API keys redacted from URLs in logs.
+- Disease upload hardening: size cap + magic-byte MIME sniff + safety gates.
+- Body limit 6 MB; graceful shutdown; crash nets.
+
+---
+
+## 10. Configuration
+
