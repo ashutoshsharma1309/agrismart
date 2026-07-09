@@ -748,3 +748,34 @@ the placeholder sentinels `REPLACE_WITH_YOUR_ROTATED_KEY` / `REPLACE_WITH_YOUR_R
 | `clsx` + `tailwind-merge` | `cn()` class composition |
 | `@fontsource/*` | Self-hosted Latin + Indic fonts (lazy per language) |
 
+### Server — why each major dep is used
+
+| Dependency | Why |
+|---|---|
+| `fastify` 5 | HTTP framework (fast, schema-friendly, plugin scopes) |
+| `@fastify/cors` | CORS restricted to allowed origins |
+| `@fastify/rate-limit` | IP-level rate limiting per scope |
+| `groq-sdk` | LLaMA text + vision completions |
+| `zod` 3 | Env, request, and LLM-output validation |
+| `node-cache` | In-memory caching + counters |
+| `pino` | Structured JSON logging with redaction |
+| `file-type` | Magic-byte MIME sniff for uploaded images |
+| `dotenv` | Load `.env` |
+| `tsx` (dev) | TS execution + watch in dev |
+
+---
+
+## 12. External Integrations
+
+| Service | Used for | Where | Key | Failure handling |
+|---|---|---|---|---|
+| **OpenWeatherMap** | Current weather, 5-day/3-hour forecast, direct geocoding | `services/openweather.ts` | `OPENWEATHER_API_KEY` (server-only) | Typed `UpstreamError`; serve stale cache up to 6 h; key redacted from logs |
+| **Groq** | LLaMA 3.3 70B (advisory/soil/chat text) + LLaMA 4 Scout 17B (disease vision) | `services/groq.ts` | `GROQ_API_KEY` (server-only) | Retry+backoff, error classification, schema-retry, feature-specific fallbacks; 503 when unconfigured |
+| **ICAR KVK locator** | Deep links to verified KVK contacts | `features/kvk/kvkData.ts` | none | Static links to `kvk.icar.gov.in` |
+| **OpenWeather icon CDN** | Weather condition icons | `openweather.ts` (`iconUrl`) | none | Image URLs only |
+
+No payment gateway, no message broker, no analytics/telemetry SaaS, no cloud SDKs. Fonts are
+self-hosted via `@fontsource` (no Google Fonts network dependency).
+
+---
+
