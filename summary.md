@@ -1033,3 +1033,20 @@ Mirror the **satellite** module: put pure logic in `server/src/services/<feature
 - **Response envelope shape** (`{ ok, data|reason }`) — clients and types depend on it; the chat
   route's flat shape is intentional (normalized in `ai-client.ts::sendChat`).
 
+### Architectural constraints
+
+- **Single server instance** unless a shared store is added (in-memory cache + rate limits).
+- **No database** — don't assume server-side persistence; user data lives in the browser.
+- **Client env is build-time** — `VITE_*` cannot change at runtime.
+- **SPA needs `index.html` fallback** on the host for deep links.
+
+### Common pitfalls
+
+- Forgetting the `groqStatus.configured()` guard → 500s instead of graceful 503 when no key.
+- Not wrapping `callGroq` in `try/finally` with `beginActive/endActive` → concurrency gate leaks.
+- Adding a strings-only English key and forgetting the other five dictionaries.
+- Setting `GROQ_MAX_TOKENS` too low → rich schemas (advisory) silently truncate and fail validation.
+- Editing prompts without keeping the **exact JSON top-level key names** the schema expects
+  (advisory explicitly warns the top key must be `recommendations`).
+- Assuming the chatbot always hits the server — it falls back to the offline mock on any failure.
+
