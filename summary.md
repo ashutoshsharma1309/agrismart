@@ -918,3 +918,52 @@ Optional: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
 
 ---
 
+## 17. Current Limitations
+
+- **No real authentication** — client-side mock only; any credentials pass. Not production-safe.
+- **No database / no durable server state** — restart loses caches, chat history, rate counters,
+  usage tallies. Forces single-instance deployment.
+- **Satellite data is synthesized** — 5 demo fields, generated time-series, nearest-centroid
+  classifier (not a trained model, not a live Sentinel pipeline).
+- **Dual soil engines** — `client/lib/soil-engine.ts` and `server/services/soil-baseline.ts` are
+  near-duplicates; drift risk (technical debt).
+- **Legacy `mock-api.ts`** coexists with real clients; some helpers are dead/back-compat paths.
+- **Zod version mismatch** — client Zod 4 vs server Zod 3 (intentional per-package, but a
+  maintenance footgun).
+- **No tests / no coverage.**
+- **LLM cost & latency** — advisory/disease prompts are large; only input-hash caching mitigates.
+- **Placeholder marketing links** and a hard-coded helpline/email in the footer.
+- **Rate-limit & cache correctness break under horizontal scaling** (documented).
+- **`GROQ_MAX_TOKENS` default drift** — code default 1024 vs `.env.example` 4500; advisory route
+  requests 4500 but is clamped to the configured cap, so a low cap silently truncates rich outputs.
+
+**TODOs/known-bug markers:** the codebase uses explanatory comments rather than `TODO` tags; the
+main "known" items are the mock auth, single-instance constraint, and demo satellite data — all
+called out in README/DEPLOYMENT/docs.
+
+---
+
+## 18. Improvement Opportunities
+
+1. **Real auth** — replace the localStorage mock with a proper identity provider (JWT/OAuth or a
+   managed auth service), server-verified sessions, and per-user data.
+2. **Introduce a database** — persist profiles, history, chat, saved locations, and usage; enables
+   multi-device and analytics. Add a shared cache/rate-limit store (Redis) to unlock horizontal
+   scaling.
+3. **Unify the soil engine** — delete the client duplicate; always call the server (with an offline
+   fallback bundle if needed).
+4. **Add tests** — start with the pure engines and safety gates; add API contract tests and a few
+   Playwright smoke flows.
+5. **Retire `mock-api.ts`** or formalize it as an explicit "offline mode" module with clear
+   boundaries.
+6. **Productionise satellite** — per `docs/SATELLITE_ADVISORY.md`: GEE/Sentinel Hub ingestion, SNAP
+   SAR preprocessing, a trained RF/temporal-CNN classifier (interface already stable), farmer-drawn
+   polygons, and a scheduled re-analysis job with push alerts.
+7. **Observability** — export usage/latency metrics; alert on `schema_validation_failed` rates and
+   upstream error spikes.
+8. **Streaming chat** — stream Groq responses for perceived latency.
+9. **Align Zod versions** and consider sharing types between client and server (a shared package).
+10. **Fill marketing gaps** — real footer links, contact info.
+
+---
+
