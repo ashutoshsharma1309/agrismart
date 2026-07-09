@@ -831,3 +831,37 @@ peak value, and emit a localized alert with moderate/severe severity.
 On Zod failure, one stricter retry (temperature 0.1 + "return ONLY the JSON object"); if still
 invalid → `schema_validation_failed`. Token usage from both attempts is summed.
 
+### Disease safety gates (`routes/disease.ts::enforceDiseaseSafetyGates`)
+
+Post-parse: re-derive `confidence_label` from the numeric band; force `kvk_consultation_required =
+true`; if `confidence < 0.7` or `severity = unable_to_assess`, scrub all synthetic-chemical
+specifics; if recommended, ensure PPE minimums; if `not_a_leaf/healthy/uncertain`, block all
+treatment. This makes "AI confidently recommends wrong dose" structurally impossible.
+
+---
+
+## 14. Coding Patterns
+
+- **Naming:** camelCase for values/functions, PascalCase for types/React components; feature folders
+  are lowercase; snake_case for JSON API fields and LLM schema fields (matches provider/domain
+  conventions); files kebab-case (`ai-client.ts`) or PascalCase for components (`AppLayout.tsx`).
+- **State management:** React Context for cross-cutting state (session, profile, chat); local
+  component state elsewhere; **localStorage/sessionStorage** as the persistence layer. No Redux/Zustand.
+- **Error handling:** typed error classes with `reason` codes across service boundaries; result
+  unions rather than throws at the app boundary; client normalizes everything into
+  `{ ok, data|reason }`.
+- **Logging:** server-only, `pino` structured JSON, **PII-safe** (log tokens/model/duration, never
+  prompt/response content), secrets redacted. No client logging framework.
+- **Dependency injection:** none formal — modules import singletons (config, logger, caches). Groq
+  client is a lazy singleton.
+- **Validation:** Zod everywhere at boundaries (env, request, LLM output). Client forms use
+  react-hook-form + Zod resolver.
+- **Styling:** Tailwind utility classes + semantic design tokens (`brand`, `ink`, `surface`,
+  `border`) defined in `globals.css`; `cn()` for conditional classes.
+- **Performance:** route-level `lazy()` + `Suspense`; manual vendor chunk splitting; lazy i18n
+  dictionaries and fonts; client image downscaling before upload; server caching + dedupe.
+- **Comments:** substantial explanatory comments especially around safety gates, caching rationale,
+  and prompt design — preserve these when editing.
+
+---
+
