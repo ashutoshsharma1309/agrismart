@@ -1007,3 +1007,29 @@ Mirror the **satellite** module: put pure logic in `server/src/services/<feature
 - Preserve and update the explanatory comments — especially around safety gates and caching.
 - Add all six languages when adding user-facing strings.
 
+### Files to modify for common tasks
+
+| Task | Files |
+|---|---|
+| Add/adjust an AI feature's behaviour | `server/src/prompts/<feature>.ts` (schema + prompt) |
+| Change LLM models / limits | `server/.env` (`GROQ_MODEL_*`, `GROQ_MAX_TOKENS`) + `config.ts` defaults |
+| Add a route | `server/src/routes/<feature>.ts` + register in `index.ts` |
+| Add a page | `client/src/features/...` + `router.tsx` + `AppLayout.tsx` nav |
+| Weather thresholds / alert copy | `server/src/services/alerts.ts` + `server/src/i18n/alerts.ts` |
+| Satellite logic / fields | `server/src/services/satellite-engine.ts` + `data/satellite-fields.ts` |
+| Soil rules | `server/src/services/soil-baseline.ts` (server) and/or `client/src/lib/soil-engine.ts` |
+| Caching TTLs | `server/src/lib/cache.ts`, `lib/llm-cache.ts` |
+| Rate limits | `server/src/lib/ai-rate-limit.ts` + scopes in `index.ts` |
+| Translations | `client/src/i18n/*.json` (all six) |
+
+### Areas that should NOT be changed lightly
+
+- **`enforceDiseaseSafetyGates` and the safety sections of every prompt** — they prevent unsafe
+  chemical-dose recommendations. Changing thresholds/logic is a safety-critical change.
+- **`config.ts` validation** — loosening it removes the fail-fast guarantee and can leak/placeholder
+  keys into runtime.
+- **`groq.ts` schema-retry + error classification** — the reliability backbone of AI responses.
+- **The client secrets boundary** — do not add provider references to client code.
+- **Response envelope shape** (`{ ok, data|reason }`) — clients and types depend on it; the chat
+  route's flat shape is intentional (normalized in `ai-client.ts::sendChat`).
+
