@@ -156,3 +156,82 @@ graph LR
   Clients -->|JSON| RL
 ```
 
+### Design patterns used
+
+- **Backend-for-frontend / API proxy** — server wraps third-party APIs behind its own contract.
+- **Provider adapter / anti-corruption layer** — `openweather.ts` and `groq.ts` normalize raw
+  provider payloads into internal types; raw shapes never leak to routes or client.
+- **Result / discriminated-union returns** — services return `{ ok: true, data } | { ok: false, reason }`
+  (`GroqResult<T>`) instead of throwing across boundaries; the app-wide response envelope is
+  `{ ok: boolean, data?, reason? }`.
+- **Schema-first validation** — Zod at every boundary: env (`config.ts`), request bodies, query
+  params, **and LLM outputs** (with a strict-retry loop).
+- **Strategy / rule-table** — weather alert rules, pesticide swaps, crop signatures, stage bands.
+- **Defense-in-depth safety gates** — disease route re-applies safety rules after schema parse
+  (`enforceDiseaseSafetyGates`) so a prompt/schema/model failure can't leak a dangerous chemical
+  recommendation.
+- **Graceful degradation** — stale-cache serving, rule-based fallbacks, offline mocks.
+- **Lazy loading / code splitting** — routes, i18n dictionaries, and non-Latin fonts load on demand.
+- **Provider/Context** — React context for session, profile, and chat.
+- **Lazy singleton** — Groq SDK client instantiated on first use.
+
+### Folder structure
+
+```
+agrismart/
+├── README.md                      # Project overview + quickstart
+├── DEPLOYMENT.md                  # Production deployment guide (env, Docker, scaling, CI)
+├── note.txt                       # The originating problem statement (satellite PS)
+├── .github/workflows/ci.yml       # CI: client + server typecheck + build on Node 22
+├── docs/
+│   ├── SATELLITE_ADVISORY.md      # Deep-dive on the satellite module + productionisation path
+│   └── india.pdf                  # Presentation asset
+│
+├── client/                        # React + Vite SPA  →  builds to client/dist
+│   ├── index.html                 # SPA entry HTML
+│   ├── vite.config.ts             # Vite + manualChunks (recharts/framer/lucide/react-vendor)
+│   ├── vercel.json                # SPA rewrite → /index.html
+│   ├── public/_redirects          # Netlify SPA fallback
+│   ├── tailwind.config.js, postcss.config.js, eslint.config.js
+│   └── src/
+│       ├── main.tsx               # ReactDOM root; imports i18n + globals.css
+│       ├── app/                   # Cross-cutting app shell
+│       │   ├── App.tsx            # Provider tree + RouterProvider + Toaster
+│       │   ├── router.tsx         # createBrowserRouter; marketing vs /app trees; lazy routes
+│       │   ├── session.tsx        # SessionProvider + ProtectedRoute (localStorage auth mock)
+│       │   ├── profile.tsx        # ProfileProvider (farmer profile in localStorage)
+│       │   ├── AppLayout.tsx      # Authenticated shell: sidebar + topbar + mobile nav
+│       │   └── MarketingLayout.tsx# Public shell: marketing header + footer
+│       ├── components/
+│       │   ├── ui/                # Primitives: Button, Card, Input, Select, Tabs, Dialog, Chip, Logo
+│       │   └── shared/            # AiDisclaimer, Avatar, ErrorBoundary, LanguageSwitcher, OfflineBanner
+│       ├── features/              # ONE FOLDER PER FEATURE (see below)
+│       ├── lib/                   # API clients, engines, utilities (see §6)
+│       ├── data/                  # Offline JSON fixtures (advisory, diseases, chatbot-replies, weather.fallback)
+│       ├── i18n/                  # index.ts + en/hi/kn/ta/te/mr.json dictionaries
+│       └── styles/globals.css     # Tailwind layers + design tokens (brand/ink/surface)
+│
+└── server/                        # Fastify proxy  →  builds to server/dist
+    ├── Dockerfile                 # Multi-stage Node 22 alpine, non-root, HEALTHCHECK /api/health
+    ├── tsconfig.json
+    └── src/
+        ├── index.ts               # App bootstrap: CORS, rate-limit scopes, route registration, health, shutdown
+        ├── config.ts              # Zod-validated env; isGroqConfigured / isPlaceholderKey sentinels
+        ├── routes/                # One registrar per feature (weather, chat, advisory, soil, disease, satellite, admin)
+        ├── services/              # Provider clients + rule engines (groq, openweather, alerts, satellite-engine, soil-baseline)
+        ├── prompts/               # Zod schemas + system/user prompt builders (advisory, chatbot, disease, soil)
+        ├── data/                  # satellite-fields.ts (observation fixtures + generator)
+        ├── i18n/alerts.ts         # Localized weather-alert strings (6 langs)
+        └── lib/                   # cache, llm-cache, ai-rate-limit, usage, logger, errors
+```
+
+**`client/src/features/` breakdown** (each is a self-contained feature module):
+
+- `advisory/` — `AdvisoryPage.tsx` (~986 lines): multi-field form → ranked crop cards + strategies.
+- `disease/` — `DiseasePage.tsx` (~953 lines): image upload/capture → confidence-driven diagnosis UI.
+- `soil/` — `SoilPage.tsx`: NPK/pH/OC form → health score + eco recommendations + plan.
+- `satellite/` — `SatellitePage.tsx` (dashboard) + `SatelliteLandingPage.tsx` (public).
+- `weather/` — `WeatherPage.tsx` + `conditionIcon.tsx`; saved locations.
+- `chatbot/` — `ChatContext.tsx` (state/provider), `ChatPanel.tsx` (floating), `ChatbotPage.tsx` (full page).
+- `dashboard/`, `history/`, `profile/`, `settings/`, `kvk/`, `landing/`, `auth/`, `NotFound.tsx`.
+
