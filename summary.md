@@ -577,3 +577,18 @@ escalation). **Safety gates re-applied server-side.** Errors: `413 image_too_lar
 | GET | `/api/satellite/fields` | All fields as `FieldSummary[]` |
 | GET | `/api/satellite/fields/:id` | Full `FieldAnalysis` (404 if unknown id) |
 
+### Admin
+
+| Method | Path | Auth | Response |
+|---|---|---|---|
+| GET | `/api/admin/usage` | `Authorization: Bearer <ADMIN_TOKEN>` (constant-time compare) | `usageSnapshot()` — per-model tokens, calls, estimated USD. `401` if token wrong/empty. |
+
+### Error reasons (union)
+
+`invalid_query`, `invalid_image`, `image_too_large`, `upstream_auth_failed`,
+`upstream_rate_limited`, `upstream_unavailable`, `upstream_timeout`, `upstream_bad_request`,
+`upstream_not_found`, `schema_validation_failed`, `user_rate_limited`, `ip_rate_limited`,
+`server_busy`, `not_found`, `unauthorized`, `internal_error`, `network_error` (client), `unknown`.
+
+---
+
