@@ -899,3 +899,22 @@ Optional: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
   image (`docker build -t agrismart-server .`), passing env via secrets. **Run a single replica**
   (in-memory state). Health probe: `GET /api/health`.
 
+### CI
+`.github/workflows/ci.yml` runs on push/PR to `main`: parallel `client` and `server` jobs on Node
+22, each `npm ci` → typecheck → build. Keep green before deploy.
+
+---
+
+## 16. Testing
+
+- **There is currently no automated test suite** — no test framework (Jest/Vitest/Playwright), no
+  `test` scripts, no `*.test.*` / `*.spec.*` files in the repo.
+- **What stands in for tests today:** CI typecheck + build on both packages, and the fact that the
+  satellite engine and soil engine are **pure, deterministic** functions (trivially unit-testable —
+  see `docs/SATELLITE_ADVISORY.md`, which explicitly notes the engine "is fully unit-testable").
+- **Recommended first tests (inferred priority):** `satellite-engine.ts` (classification/stress/
+  irrigation math), `soil-baseline.ts` (scoring + swaps), `alerts.ts` (rule runs), `groq.ts`
+  `tryParseJson` + schema-retry, and `enforceDiseaseSafetyGates` (safety-critical).
+
+---
+
