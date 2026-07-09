@@ -74,3 +74,26 @@ graph TD
 
 ---
 
+## 2. Features
+
+### Implemented features
+
+| Feature | Route | Backend | Fallback behaviour |
+|---|---|---|---|
+| **Crop Advisory** | `/app/advisory` | `POST /api/advisory/generate` (Groq text, grounded with live weather) | Requires Groq; returns 503 if unconfigured. Client also has an offline mock (`mock-api.ts`) using `data/advisory.json`. |
+| **Leaf Disease Detector** | `/app/disease` | `POST /api/disease/analyze` (Groq vision) | Requires Groq; client downscales image before upload; server enforces safety gates. |
+| **Soil & Fertilizer Plan** | `/app/soil` | `POST /api/soil/analyze` (rule baseline + Groq) | **Always** returns rule-engine baseline even when Groq is down/absent. |
+| **Satellite Crop Advisory** | `/app/satellite` + public `/satellite` | `GET /api/satellite/*` (pure rule engine) | Always works — no API key, deterministic. |
+| **Weather + Alerts** | `/app/weather` | `GET /api/weather/*`, `GET /api/geocode` (OpenWeatherMap) | Stale-cache serving; client `weather-fallback.ts` offline seed. |
+| **AI Assistant (chatbot)** | `/app/chatbot` + floating panel | `POST /api/chat/message` (Groq text, profile+weather grounded) | Falls back to scripted offline replies (`chatbot-replies.json`) keyed by detected intent. |
+| **Dashboard** | `/app/dashboard` | aggregates local + weather data | — |
+| **History** | `/app/history` | localStorage (`agrismart.history`) | — |
+| **KVK Directory** | `/app/kvk-directory` | static `kvkData.ts` + ICAR deep links | — |
+| **Profile / Settings** | `/app/profile`, `/app/settings` | localStorage | — |
+| **Six languages** | app-wide | i18n JSON dictionaries, lazy-loaded per locale + font | English bundled; others on demand |
+| **Admin usage metrics** | — | `GET /api/admin/usage` (bearer token) | Token-gated; denies if `ADMIN_TOKEN` empty |
+| **Public marketing landing** | `/` | static | — |
+| **Public satellite landing** | `/satellite` | static + live demo calls | — |
+
+Supported languages: **English (en), Hindi (hi), Kannada (kn), Tamil (ta), Telugu (te), Marathi (mr)**.
+
