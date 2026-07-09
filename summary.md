@@ -293,3 +293,13 @@ agrismart/
 - **None.** No SQL/NoSQL database, no ORM, no migrations. Persistence is browser storage +
   ephemeral in-memory server caches. See [§8](#8-database--persistence).
 
+### Infrastructure & deployment
+
+- **Client:** static hosting (Vercel/Netlify configs included; SPA fallback to `index.html`).
+- **Server:** Docker (multi-stage Node 22 alpine, non-root, healthcheck) or any Node 22 host.
+- **CI:** GitHub Actions (`ci.yml`) — parallel client/server typecheck+build on Node 22.
+
+---
+
+## 5. Application Flow
+
