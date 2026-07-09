@@ -303,3 +303,39 @@ agrismart/
 
 ## 5. Application Flow
 
+### Startup
+
+**Server (`server/src/index.ts`):**
+1. `import 'dotenv/config'` (via `config.ts`) loads `.env`; Zod parses/validates env. **Invalid env
+   → throw, process never starts.**
+2. `main()` creates the Fastify instance with the pino logger and a 6 MB body limit (for base64
+   disease images).
+3. Registers CORS (allowed origins from `ALLOWED_ORIGIN`, comma-split), then a **global** rate
+   limiter (60 req/IP/min).
+4. Registers three isolated plugin scopes:
+   - Weather scope (30 req/IP/min) → weather + geocode routes.
+   - AI scope (30 req/IP/min) → chat, advisory, soil, disease routes.
+   - Satellite scope (global limiter only) → satellite routes.
+   - Admin routes.
+5. Adds `GET /api/health` and `GET /` (route index). Warns if the OpenWeather key is a placeholder
+   or Groq is unconfigured.
+6. `app.listen({ port, host: '0.0.0.0' })`.
+7. Registers `SIGTERM`/`SIGINT` graceful shutdown (drains in-flight requests via `app.close()`),
+   plus `unhandledRejection`/`uncaughtException` crash nets.
+
+**Client (`client/src/main.tsx`):**
+1. Imports `./i18n` (initializes i18next, detects persisted language, lazy-loads dictionary+font if
+   non-English) and `./styles/globals.css`.
+2. Mounts `<App/>` into `#root` under `React.StrictMode`.
+3. `App` renders provider tree: `SessionProvider → ProfileProvider → ChatProvider → RouterProvider`
+   plus the global `Toaster`.
+
+### Initialization / providers
+
+- **SessionProvider** hydrates session from `localStorage['agrismart.session']`; syncs across tabs
+  via the `storage` event.
+- **ProfileProvider** hydrates the farmer profile from `localStorage['agrismart.profile']`;
+  persists on every change.
+- **ChatProvider** hydrates per-language chat transcripts from `localStorage['agrismart.chat']` and
+  manages a persistent `conversation_id`.
+
