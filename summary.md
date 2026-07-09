@@ -376,3 +376,17 @@ sequenceDiagram
   P->>U: Render ranked crop cards
 ```
 
+### Data flow
+
+- **Inbound user data:** browser forms → typed client request → server Zod schema → service.
+- **Provider data:** OpenWeatherMap/Groq → normalized in services → cached → returned as envelope.
+- **Persistence:** results and history are written to `localStorage` on the client; the server
+  keeps only ephemeral caches, rate counters, chat history, and usage tallies in memory.
+
+### Business logic
+
+- **Rule engines run first / always:** soil baseline computed before the LLM; satellite engine is
+  100% deterministic; weather alerts derived by threshold rules.
+- **LLM augments, never solely decides safety:** disease safety gates re-applied post-parse; soil
+  health score always taken from the rule engine, not the LLM.
+
