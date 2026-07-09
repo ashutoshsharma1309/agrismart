@@ -888,3 +888,14 @@ npm run dev               # Vite → http://localhost:5173
 ```
 Optional: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
 
+### Scripts
+- **Client:** `npm run dev` · `npm run build` (`tsc -b && vite build`) · `npm run preview` · `npm run lint`
+- **Server:** `npm run dev` · `npm run build` (`tsc`) · `npm start` (`node dist/index.js`) · `npm run typecheck`
+
+### Production build
+- **Client:** set `VITE_API_BASE_URL` to the prod server URL **before** building → deploy `client/dist`
+  to static hosting with SPA fallback (Vercel/Netlify configs included).
+- **Server:** `npm ci && npm run build && NODE_ENV=production node dist/index.js`, or use the Docker
+  image (`docker build -t agrismart-server .`), passing env via secrets. **Run a single replica**
+  (in-memory state). Health probe: `GET /api/health`.
+
