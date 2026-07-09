@@ -97,3 +97,29 @@ graph TD
 
 Supported languages: **English (en), Hindi (hi), Kannada (kn), Tamil (ta), Telugu (te), Marathi (mr)**.
 
+### Partially implemented / demo-grade
+
+- **Authentication is a client-side mock.** Login/signup accept any email + any ≥6-char password,
+  synthesize a display name from the email, and store a session object in `localStorage`. There is
+  **no** server-side auth, password verification, token issuance, or user database. See
+  [§9](#9-authentication--authorization).
+- **Satellite data is synthesized fixtures.** Five fields with physically-plausible generated
+  time-series (`server/src/data/satellite-fields.ts`). Not a live Sentinel/geospatial pipeline.
+  The classifier is a nearest-centroid stand-in for a production RF/CNN model.
+- **`mock-api.ts` legacy layer** still exists alongside the real API clients. The chatbot uses it
+  as an offline fallback; some helpers (`getWeather`, `analyseLeaf`, `getAdvisory`) are legacy /
+  back-compat and not the primary path.
+- **Landing-page footer links** (About, Careers, Press, Docs, Community) are placeholder spans.
+
+### Future-ready components already present
+
+- **Multi-instance-aware config** — deployment guide explicitly notes the single-instance
+  constraint and where a Redis shared store would slot in.
+- **Server soil rule engine** (`soil-baseline.ts`) mirrors the client engine — ready to be the
+  sole source of truth.
+- **Satellite engine interface** (`classifyCrop` etc.) is deliberately model-agnostic so a trained
+  classifier can be dropped in without touching routes or UI (documented in `docs/SATELLITE_ADVISORY.md`).
+- **Usage/cost tracking** (`lib/usage.ts`) already tallies Groq tokens and estimated USD per model.
+
+---
+
