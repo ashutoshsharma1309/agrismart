@@ -339,3 +339,40 @@ agrismart/
 - **ChatProvider** hydrates per-language chat transcripts from `localStorage['agrismart.chat']` and
   manages a persistent `conversation_id`.
 
+### Authentication flow
+
+Client-only mock (see [§9](#9-authentication--authorization)). `ProtectedRoute` guards `/app/*`:
+if no `session.loggedIn`, redirect to `/login` preserving `from` for post-login redirect.
+
+### Request flow (example: Crop Advisory)
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant P as AdvisoryPage
+  participant C as ai-client.ts
+  participant R as routes/advisory.ts
+  participant G as services/groq.ts
+  participant W as services/openweather.ts
+  participant X as Groq API
+
+  U->>P: Fill form, submit
+  P->>C: generateAdvisory(req)
+  C->>R: POST /api/advisory/generate (+X-User-Id)
+  R->>R: Zod-validate body
+  R->>R: groqStatus.configured()? else 503
+  R->>R: checkAiLimits() else 429
+  R->>R: llmCache.get(key)? → return cached
+  R->>W: weatherContextFor(location) (best-effort)
+  W-->>R: "32°C, ~40mm next 5d" or undefined
+  R->>G: callGroq(system, user, AdvisorySchema)
+  G->>X: chat.completions.create (json_object)
+  X-->>G: JSON
+  G->>G: parse + Zod validate (+1 strict retry)
+  G-->>R: {ok, data, usage}
+  R->>R: trackUsage(); llmCache.set(key, data, 1 day)
+  R-->>C: {ok:true, data, cached:false}
+  C-->>P: Envelope
+  P->>U: Render ranked crop cards
+```
+
