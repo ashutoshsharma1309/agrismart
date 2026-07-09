@@ -415,3 +415,12 @@ and per-conversation chat history + per-user weather-context cache in the chat r
 - Client wraps `fetch` so network errors surface as `{ ok:false, reason:'network_error' }`; UI
   degrades to fallbacks/toasts. `ErrorBoundary` catches render errors per route tree.
 
+### Shutdown
+
+`SIGTERM`/`SIGINT` → `app.close()` drains connections → `process.exit(0)`. Uncaught exceptions log
+then exit 1.
+
+---
+
+## 6. Components / Modules
+
