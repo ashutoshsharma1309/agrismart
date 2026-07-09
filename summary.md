@@ -713,3 +713,20 @@ erDiagram
 |---|---|---|
 | `VITE_API_BASE_URL` | **yes** for prod | Public URL of the server. Defaults to `http://localhost:4000` in code |
 
+### Config files
+
+- `client/vite.config.ts` — React plugin + `manualChunks` (recharts, framer-motion, lucide-react,
+  react-vendor) + 800 KB chunk warning limit.
+- `client/tailwind.config.js`, `postcss.config.js`, `eslint.config.js`, `tsconfig*.json`.
+- `client/vercel.json`, `client/public/_redirects` — SPA fallback.
+- `server/tsconfig.json`, `server/Dockerfile`, `server/.dockerignore`.
+- `.github/workflows/ci.yml`.
+
+### Secrets required
+
+`OPENWEATHER_API_KEY` (weather), `GROQ_API_KEY` (AI features), `ADMIN_TOKEN` (admin metrics).
+**Deployment note:** keys were previously committed and must be rotated; the config layer rejects
+the placeholder sentinels `REPLACE_WITH_YOUR_ROTATED_KEY` / `REPLACE_WITH_YOUR_ROTATED_GROQ_KEY`.
+
+---
+
