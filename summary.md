@@ -516,3 +516,22 @@ routes (an optional `X-User-Id` header keys AI rate-limits); bearer token only f
 **Common envelope:** success `{ ok: true, data, cached? }` (chat uses a flat shape); error
 `{ ok: false, reason, details? }`.
 
+### Health & meta
+
+| Method | Path | Response |
+|---|---|---|
+| GET | `/api/health` | `{ ok, uptime_s, weather_configured, groq_configured }` |
+| GET | `/` | `{ name, routes[], groq_configured }` |
+| GET | `/api/weather/health` | `{ ok, upstream: 'reachable'|'unreachable', cached_keys }` |
+
+### Weather (query params; 30 req/IP/min)
+
+| Method | Path | Query | Notes |
+|---|---|---|---|
+| GET | `/api/weather/current` | `lat, lon, units?=metric, lang?=en` | Returns `CurrentWeather` |
+| GET | `/api/weather/forecast` | same | ≤5 daily buckets |
+| GET | `/api/weather/alerts` | same | `{ location, alerts[], source, cached, stale }` |
+| GET | `/api/geocode` | `q, limit?=5 (1–10)` | `{ results[], source }` |
+
+`lat ∈ [-90,90]`, `lon ∈ [-180,180]`, `lang ∈ {en,hi,kn,ta,te,mr}`.
+
