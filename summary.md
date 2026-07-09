@@ -730,3 +730,21 @@ the placeholder sentinels `REPLACE_WITH_YOUR_ROTATED_KEY` / `REPLACE_WITH_YOUR_R
 
 ---
 
+## 11. Dependencies
+
+### Client — why each major dep is used
+
+| Dependency | Why |
+|---|---|
+| `react` / `react-dom` 19 | UI framework |
+| `react-router-dom` 7 | SPA routing (`createBrowserRouter`), lazy routes |
+| `tailwindcss` (+forms, +typography) | Utility-first styling + design tokens |
+| `react-hook-form` + `@hookform/resolvers` + `zod` | Performant forms with schema validation |
+| `recharts` | Weather/soil/satellite charts |
+| `framer-motion` | Page/element animation |
+| `i18next` + `react-i18next` | Six-language runtime translation |
+| `lucide-react` | Icon set |
+| `sonner` | Toast notifications |
+| `clsx` + `tailwind-merge` | `cn()` class composition |
+| `@fontsource/*` | Self-hosted Latin + Indic fonts (lazy per language) |
+
