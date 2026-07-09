@@ -659,3 +659,15 @@ erDiagram
 4. `ProtectedRoute` gates `/app/*`; unauthenticated users are redirected to `/login` (preserving
    `from`). Sessions sync across tabs via the `storage` event. Logout clears the key.
 
+### Session / JWT handling
+
+- **No JWT, no cookies, no server session.** The "session" is a plain JSON object in `localStorage`.
+- The client sends `X-User-Id: <email|name>` on AI requests **only** to key server rate-limits — it
+  is **not** an authentication credential and is not verified.
+
+### Roles & permissions
+
+- **No user roles.** All authenticated users see the same `/app` features.
+- The only server-side authorization is the **admin bearer token** on `/api/admin/usage`
+  (constant-time `timingSafeEqual`; denies when `ADMIN_TOKEN` is empty).
+
