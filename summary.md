@@ -390,3 +390,13 @@ sequenceDiagram
 - **LLM augments, never solely decides safety:** disease safety gates re-applied post-parse; soil
   health score always taken from the rule engine, not the LLM.
 
+### External APIs
+
+- **OpenWeatherMap** — current weather, 5-day forecast, geocoding (`services/openweather.ts`).
+- **Groq** — text (advisory/soil/chat) and vision (disease) completions (`services/groq.ts`).
+
+### Background jobs
+
+- **None** (no schedulers/cron/queues). `node-cache` runs internal TTL sweep timers
+  (`checkperiod`), but there are no application background jobs.
+
