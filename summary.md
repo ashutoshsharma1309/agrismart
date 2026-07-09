@@ -7,3 +7,70 @@
 
 ---
 
+## Table of Contents
+
+1. [Project Summary](#1-project-summary)
+2. [Features](#2-features)
+3. [Architecture](#3-architecture)
+4. [Tech Stack](#4-tech-stack)
+5. [Application Flow](#5-application-flow)
+6. [Components / Modules](#6-components--modules)
+7. [API Documentation](#7-api-documentation)
+8. [Database / Persistence](#8-database--persistence)
+9. [Authentication & Authorization](#9-authentication--authorization)
+10. [Configuration](#10-configuration)
+11. [Dependencies](#11-dependencies)
+12. [External Integrations](#12-external-integrations)
+13. [Important Algorithms](#13-important-algorithms)
+14. [Coding Patterns](#14-coding-patterns)
+15. [Build & Run Instructions](#15-build--run-instructions)
+16. [Testing](#16-testing)
+17. [Current Limitations](#17-current-limitations)
+18. [Improvement Opportunities](#18-improvement-opportunities)
+19. [AI Development Context](#19-ai-development-context)
+20. [Glossary](#20-glossary)
+
+---
+
+## 1. Project Summary
+
+- **Project name:** AgriSmart (client package `agrismart`, server package `agrismart-server`)
+- **Purpose:** Put practical, agronomist-informed farming decisions in an Indian farmer's pocket —
+  crop advisory, leaf-disease diagnosis, soil & fertilizer planning, hyperlocal weather with
+  alerts, satellite-based moisture-stress detection, and a conversational AI assistant — in one
+  multilingual web app.
+- **Problem it solves:** Small and mid-size Indian farmers lack affordable, timely, localized
+  agronomic guidance. Generic advice ignores their exact soil, season, budget, and weather.
+  AgriSmart delivers ranked, honest, ₹-grounded recommendations in six Indian languages, with a
+  rule-based foundation so it **always works** (even offline / without AI keys) and AI layers on
+  top for richer, personalized advice.
+- **High-level overview:** A monorepo with two independently deployable units:
+  - **`client/`** — a React 19 + Vite single-page app (TypeScript, Tailwind). Static hosting.
+  - **`server/`** — a Fastify 5 (TypeScript, ESM) API **proxy** that keeps provider API keys
+    server-side and adds caching, rate-limiting, structured logging, schema validation, and
+    graceful fallbacks. Deploys as a Node 22 service or Docker container.
+
+  The design philosophy throughout is **"AI-enhanced, not AI-dependent"**: every AI feature has a
+  deterministic rule-based fallback, and the satellite module is *entirely* rule-based (no LLM, no
+  external API).
+
+```mermaid
+graph TD
+  subgraph Browser["Client — React SPA (static hosting)"]
+    UI["Feature pages<br/>(advisory, disease, soil,<br/>satellite, weather, chatbot)"]
+    LS[("localStorage /<br/>sessionStorage")]
+    UI <--> LS
+  end
+  subgraph Server["Server — Fastify proxy (Node 22)"]
+    R["Routes"]
+    SVC["Services + rule engines"]
+    CACHE[("In-memory caches<br/>node-cache")]
+    R --> SVC --> CACHE
+  end
+  UI -- "HTTPS JSON<br/>(VITE_API_BASE_URL)" --> R
+  SVC -- "weather + geocode" --> OW["OpenWeatherMap API"]
+  SVC -- "LLM text + vision" --> GROQ["Groq API<br/>(LLaMA models)"]
+```
+
+---
+
