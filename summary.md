@@ -779,3 +779,16 @@ self-hosted via `@fontsource` (no Google Fonts network dependency).
 
 ---
 
+## 13. Important Algorithms
+
+### Satellite crop classification (`satellite-engine.ts`)
+
+Nearest-centroid over phenology signatures. Each reference crop (Rice, Wheat, Maize, Cotton,
+Sugarcane) has a canonical NDVI-vs-day-after-sowing bell curve + early-season SAR VV level. For a
+field:
+1. Compute **RMSE** between observed NDVI trajectory and each crop's model curve (`modelNdvi`).
+2. Add **SAR establishment distance** (flooded paddy sits several dB lower early in VV).
+3. Add a **duration prior** penalty (a crop can't still be growing past its cycle length).
+4. `dist = 3.0·shape + 1.4·earlyVV + 2.5·overrun`; **softmax** over `-dist` → calibrated
+   probabilities. Top class + alternatives returned. Ground truth is compared only in the UI.
+
