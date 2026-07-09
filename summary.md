@@ -792,3 +792,17 @@ field:
 4. `dist = 3.0·shape + 1.4·earlyVV + 2.5·overrun`; **softmax** over `-dist` → calibrated
    probabilities. Top class + alternatives returned. Ground truth is compared only in the UI.
 
+### Phenology / growth stage
+
+Fraction through cycle `f = das / duration` maps to establishment (<0.12) → vegetative (<0.42) →
+reproductive (<0.62) → maturity (<0.88) → harvest, cross-checked with a 3-pass NDVI trend
+(rising/plateau/declining).
+
+### Moisture-stress index (0–100)
+
+```
+index = 0.40·soilScore + 0.30·ndwiScore + 0.15·trendScore + 0.15·sarRatioScore
+```
+where components come from SAR-derived soil moisture, NDWI, 3-pass slopes, and the VV−VH ratio
+(widens as canopies dry). Bands: none <20, mild 20–39, moderate 40–63, severe ≥64.
+
