@@ -1050,3 +1050,46 @@ Mirror the **satellite** module: put pure logic in `server/src/services/<feature
   (advisory explicitly warns the top key must be `recommendations`).
 - Assuming the chatbot always hits the server — it falls back to the offline mock on any failure.
 
+### Recommended workflow when extending
+
+1. Read the closest existing analog module end-to-end (route → prompt → client → page).
+2. Make the server change first; verify via `curl` against `/api/...`.
+3. Add client types mirroring the schema, then the page, then i18n.
+4. Run `npm run typecheck`/`tsc -b` and `npm run lint` in both packages (CI will too).
+5. Preserve comments; add safety notes for any new user-facing agronomic advice.
+
+---
+
+## 20. Glossary
+
+| Term | Meaning |
+|---|---|
+| **AgriSmart** | This project — multilingual AI farming-advisory web app for Indian farmers. |
+| **Advisory** | Ranked crop recommendations from soil/season/budget/weather (Groq text + weather grounding). |
+| **KVK** | Krishi Vigyan Kendra — India's district-level farm science/extension centres; the app routes farmers to them and deep-links the ICAR locator. |
+| **ICAR** | Indian Council of Agricultural Research. |
+| **MSP** | Minimum Support Price — government procurement floor price. |
+| **PMFBY / PM-KISAN / KCC / e-NAM** | Indian govt schemes: crop insurance / income support / Kisan Credit Card / electronic mandi. |
+| **Kharif / Rabi / Zaid** | India's three cropping seasons (monsoon / winter / short-summer). |
+| **NDVI** | Normalized Difference Vegetation Index — optical vegetation vigour (0–1). |
+| **NDWI** | Normalized Difference Water Index — canopy water content. |
+| **SAR** | Synthetic Aperture Radar (Sentinel-1) — cloud-penetrating microwave backscatter (VV/VH), sensitive to soil moisture and structure. |
+| **VV / VH** | SAR co-/cross-polarization backscatter channels (dB). |
+| **DAS** | Days After Sowing. |
+| **Phenology / growth stage** | Establishment → vegetative → reproductive → maturity → harvest. |
+| **Kc (crop coefficient)** | FAO-56 stage water-demand multiplier used in irrigation advisory. |
+| **Moisture-stress index** | 0–100 composite of soil moisture, NDWI, trend, and SAR ratio; bands none/mild/moderate/severe. |
+| **Ground truth** | Held-out crop label per field, shown in the UI to display classifier accuracy (never fed to the engine). |
+| **Rule engine / baseline** | Deterministic non-LLM logic (satellite, soil, alerts) that always runs and grounds/falls back for the AI. |
+| **Envelope** | Standard API response wrapper `{ ok, data?/reason? }`. |
+| **Safety gate** | Server-side post-processing (esp. disease) that enforces non-negotiable safety rules regardless of model output. |
+| **Grounding** | Injecting farmer profile + live weather + season into prompts so the LLM references real values. |
+| **Fallback** | The rule-based/offline response served when AI/upstream is unavailable. |
+| **`X-User-Id`** | Client header (email/name) used only to key server AI rate limits — not authentication. |
+| **Stale cache** | 6-hour secondary cache serving degraded (marked `stale:true`) weather when upstream fails. |
+
+---
+
+*Document generated from a full read of the repository source (client + server), configuration,
+docs, and CI. Statements are grounded in the actual code; items explicitly marked **(inferred)** or
+"recommended" are analysis rather than facts read from source.*
