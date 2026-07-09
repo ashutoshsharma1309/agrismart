@@ -820,3 +820,14 @@ organic-carbon/1.0, each clamped to [0,1], ×100. Fertilizer choice is a priorit
 high OC → low P → low K → balanced), plus pH lime/gypsum notes and a curated **pesticide-swap table**
 (e.g. chlorpyrifos → 5% neem oil, monocrotophos → Trichogramma + Bt).
 
+### Weather-alert derivation (`alerts.ts`)
+
+Per rule (heat/rain/wind/cold), scan forecast days, group consecutive matches into runs, track the
+peak value, and emit a localized alert with moderate/severe severity.
+
+### LLM JSON hardening (`groq.ts`)
+
+`tryParseJson` strips ```` ```json ```` fences and, failing that, extracts the first `{…}` block.
+On Zod failure, one stricter retry (temperature 0.1 + "return ONLY the JSON object"); if still
+invalid → `schema_validation_failed`. Token usage from both attempts is summed.
+
