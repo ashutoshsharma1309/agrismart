@@ -613,3 +613,34 @@ escalation). **Safety gates re-applied server-side.** Errors: `413 image_too_lar
 
 `sessionStorage`: `agrismart.session_activity` (last 30 recent-activity entries; cleared on tab close).
 
+### Server persistence (in-memory only — lost on restart)
+
+| Store | TTL | Purpose |
+|---|---|---|
+| `cache` (weather) | `CACHE_TTL_SECONDS` (≥300, default 600) | Fresh weather/geocode |
+| `staleCache` | 6 h | Degraded serving when upstream fails |
+| `llmCache` | 1 day (advisory/soil), 7 days (disease) | Dedupe LLM calls by input hash |
+| chat `conversations` | 1 h | Per-conversation last-20 turns |
+| chat `weatherContextCache` | 10 min | Per-user weather grounding |
+| `ai-rate-limit` counters | 1 h | Per-user/per-IP hourly limits |
+| `usage` tallies | process lifetime | Token/cost accounting |
+
+**Consequence (documented in DEPLOYMENT.md):** because cache and rate-limit state are in memory,
+the server **must run as a single instance** unless a shared store (e.g. Redis) is added.
+
+**No migrations, no schema files, no ORM.** The satellite "data" is generated fixtures
+(`server/src/data/satellite-fields.ts`) with a seeded LCG so they never drift.
+
+### Domain relationships (conceptual, not a DB)
+
+```mermaid
+erDiagram
+  SESSION ||--|| PROFILE : "same browser"
+  PROFILE ||--o{ HISTORY : accumulates
+  PROFILE ||--o{ CHAT : "grounds prompts"
+  SATELLITE_FIELD ||--o{ SAT_OBSERVATION : "time-series"
+  SATELLITE_FIELD ||--|| FIELD_ANALYSIS : "engine derives"
+```
+
+---
+
