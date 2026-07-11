@@ -30,9 +30,15 @@ const Env = z.object({
   GROQ_BASE_URL: z.string().url().default('https://api.groq.com'),
   GROQ_MODEL_TEXT: z.string().default('llama-3.3-70b-versatile'),
   GROQ_MODEL_VISION: z.string().default('meta-llama/llama-4-scout-17b-16e-instruct'),
+  // Upper bound on completion tokens. `callGroq` clamps every request to this
+  // cap, so the default must clear the most token-hungry feature (crop advisory
+  // asks for ~4500 to satisfy its "3+ rich recommendations" schema). Lighter
+  // routes (chat ~700, soil ~1400) pass smaller explicit values and are
+  // unaffected. A lower cap here silently truncates advisory into
+  // schema_validation_failed, so keep it aligned with .env.example.
   GROQ_MAX_TOKENS: z
     .string()
-    .default('1024')
+    .default('4500')
     .transform((v) => Number(v))
     .pipe(z.number().int().positive().max(8192)),
   GROQ_TIMEOUT_MS: z
