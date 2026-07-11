@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { CloudOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+/** Subscribe to the browser's connectivity as an external store. This is the
+ * idiomatic way to read a browser value that changes over time — it avoids an
+ * effect-driven setState and can't tear during concurrent renders. */
+function subscribeOnline(callback: () => void) {
+  window.addEventListener('online', callback);
+  window.addEventListener('offline', callback);
+  return () => {
+    window.removeEventListener('online', callback);
+    window.removeEventListener('offline', callback);
+  };
+}
+
+const getIsOffline = () => typeof navigator !== 'undefined' && !navigator.onLine;
+// The server has no connectivity concept — render as online so SSR/CSR agree.
+const getServerSnapshot = () => false;
+
 /**
- * Persistent banner shown while the device is offline. Listens to the browser's
- * online/offline events (cleaned up on unmount) and renders a translated notice
- * so users know they're viewing saved data.
+ * Persistent banner shown while the device is offline, so users know they're
+ * viewing saved data.
  */
 export function OfflineBanner() {
   const { t } = useTranslation();
-  const [offline, setOffline] = useState(() =>
-    typeof navigator !== 'undefined' ? !navigator.onLine : false,
-  );
-
-  useEffect(() => {
-    const goOnline = () => setOffline(false);
-    const goOffline = () => setOffline(true);
-    window.addEventListener('online', goOnline);
-    window.addEventListener('offline', goOffline);
-    // Sync once in case status changed before listeners were attached.
-    setOffline(!navigator.onLine);
-    return () => {
-      window.removeEventListener('online', goOnline);
-      window.removeEventListener('offline', goOffline);
-    };
-  }, []);
+  const offline = useSyncExternalStore(subscribeOnline, getIsOffline, getServerSnapshot);
 
   if (!offline) return null;
 
