@@ -53,16 +53,14 @@ export function DashboardPage() {
   const lang = i18n.language as Lang;
   const { session } = useSession();
   const { profile } = useProfile();
-  const [history, setHistory] = useState<HistoryItem[]>([]);
+  // History is read once from localStorage at mount; a lazy initializer avoids
+  // an effect that would setState synchronously on first render.
+  const [history] = useState<HistoryItem[]>(() => getHistory());
   const [current, setCurrent] = useState<CurrentWeather | null>(null);
   const [alertsData, setAlertsData] = useState<AlertsResponse | null>(null);
   const [activity, setActivity] = useState<ActivityEntry[]>(() => getActivity());
-  const soilScores = useMemo(() => getSoilScores(), [history]);
+  const soilScores = useMemo(() => getSoilScores(), []);
   const counts = useMemo(() => activityCounts(activity), [activity]);
-
-  useEffect(() => {
-    setHistory(getHistory());
-  }, []);
 
   useEffect(() => {
     const handler = () => setActivity(getActivity());

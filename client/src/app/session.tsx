@@ -1,3 +1,7 @@
+/* eslint-disable react-refresh/only-export-components --
+   Context module: intentionally co-exports the SessionProvider component, the
+   ProtectedRoute guard, and the useSession hook. Splitting them purely to
+   satisfy Fast Refresh would fragment a small, cohesive module. */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { readJson, removeKey, storageKeys, writeJson } from '../lib/storage';

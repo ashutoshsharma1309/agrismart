@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components --
+   Context module: intentionally co-exports the ProfileProvider component and the
+   useProfile hook, which belong together in one small module. */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { readJson, storageKeys, writeJson } from '../lib/storage';
 

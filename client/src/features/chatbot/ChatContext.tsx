@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components --
+   Context module: intentionally co-exports the ChatProvider component and the
+   useChat hook. */
 import {
   createContext,
   useCallback,
@@ -103,7 +106,9 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     writeJson(storageKeys.chat, persisted);
   }, [persisted]);
 
-  const messages = persisted[lang] ?? [];
+  // Memoised so the `?? []` fallback doesn't create a new array reference every
+  // render, which would destabilise the context value's dependency list below.
+  const messages = useMemo(() => persisted[lang] ?? [], [persisted, lang]);
 
   const bootstrap = useCallback(() => {
     const greeting: ChatMessage = {
@@ -116,7 +121,11 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   }, [lang, t]);
 
   useEffect(() => {
+    // Seed the greeting whenever the user switches to a language that has no
+    // transcript yet. This must react to `lang` changes (not just mount), so a
+    // lazy initializer can't cover it; the synchronous seed is intentional.
     if (!persisted[lang] || persisted[lang].length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       bootstrap();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
