@@ -5,9 +5,9 @@ import {
   DiseaseSchema,
   diseaseSystemPrompt,
   diseaseUserPrompt,
-  type DiseaseOutput,
 } from '../prompts/disease.js';
 import { callGroqVision, groqStatus } from '../services/groq.js';
+import { enforceDiseaseSafetyGates } from '../lib/disease-safety.js';
 import { llmCache, llmCacheKey, sha256, ttl } from '../lib/llm-cache.js';
 import {
   beginActive,
@@ -106,69 +106,4 @@ export async function registerDiseaseRoutes(app: FastifyInstance) {
       endActive('disease');
     }
   });
-}
-
-// Defense-in-depth: even if the prompt is ignored or the schema validates a
-// dangerous payload, sanitize before sending. Mirrors the safety gates from
-// the system prompt so a single failure (prompt drift, schema gap, model
-// hallucination) can't slip a chemical recommendation past a 0.7 confidence.
-function enforceDiseaseSafetyGates(raw: unknown): DiseaseOutput {
-  // Re-parse through the schema so defaults are applied and the type narrows
-  // from the loose `unknown` we get out of callGroqVision (whose generic uses
-  // z.input, not z.output).
-  const out: DiseaseOutput = DiseaseSchema.parse(raw);
-  const conf = out.primary_diagnosis.confidence;
-  const sc = out.treatment.synthetic_chemical;
-
-  // Sync confidence_label to the band of the numeric confidence so the UI's
-  // colour gating can't disagree with the threshold gates here.
-  out.primary_diagnosis.confidence_label =
-    conf >= 0.9
-      ? 'very_high'
-      : conf >= 0.75
-        ? 'high'
-        : conf >= 0.55
-          ? 'moderate'
-          : conf >= 0.35
-            ? 'low'
-            : 'uncertain';
-
-  // KVK consultation flag is non-negotiable.
-  sc.kvk_consultation_required = true;
-
-  // Below the synthetic-chemical threshold: scrub all specific guidance.
-  if (conf < 0.7 || out.severity === 'unable_to_assess') {
-    sc.recommended = false;
-    sc.product_class = null;
-    sc.indian_examples = [];
-    sc.typical_concentration = null;
-    sc.application_method = null;
-    if (!sc.kvk_consultation_reasoning || sc.kvk_consultation_reasoning.length < 5) {
-      sc.kvk_consultation_reasoning =
-        'Confidence in this diagnosis is below the threshold for chemical recommendations. Please consult your KVK or agriculture officer for a specific treatment plan.';
-    }
-  } else if (sc.recommended) {
-    // Above threshold and recommended: ensure PPE minimum is present.
-    const required = ['gloves', 'mask', 'full-sleeve clothing'];
-    const have = new Set(sc.ppe_required.map((p) => p.toLowerCase()));
-    for (const r of required) {
-      if (!Array.from(have).some((h) => h.includes(r))) {
-        sc.ppe_required.push(r);
-      }
-    }
-  }
-
-  // If the model answered "not_a_leaf" or "healthy", make sure no treatment
-  // sneaks through.
-  const name = out.primary_diagnosis.common_name.toLowerCase();
-  if (name === 'not_a_leaf' || name === 'healthy' || name === 'uncertain') {
-    out.treatment.safe_to_recommend = false;
-    sc.recommended = false;
-    sc.product_class = null;
-    sc.indian_examples = [];
-    sc.typical_concentration = null;
-    sc.application_method = null;
-  }
-
-  return out;
 }
