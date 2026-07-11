@@ -907,14 +907,24 @@ Optional: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
 
 ## 16. Testing
 
-- **There is currently no automated test suite** — no test framework (Jest/Vitest/Playwright), no
-  `test` scripts, no `*.test.*` / `*.spec.*` files in the repo.
-- **What stands in for tests today:** CI typecheck + build on both packages, and the fact that the
-  satellite engine and soil engine are **pure, deterministic** functions (trivially unit-testable —
-  see `docs/SATELLITE_ADVISORY.md`, which explicitly notes the engine "is fully unit-testable").
-- **Recommended first tests (inferred priority):** `satellite-engine.ts` (classification/stress/
-  irrigation math), `soil-baseline.ts` (scoring + swaps), `alerts.ts` (rule runs), `groq.ts`
-  `tryParseJson` + schema-retry, and `enforceDiseaseSafetyGates` (safety-critical).
+- **Framework:** [Vitest](https://vitest.dev) in both packages. Run `npm test` (CI runs it too).
+- **Server suite (`server/src/**/*.test.ts`) — ~72 tests:**
+  - `services/satellite-engine.test.ts` — crop classification, phenology bands, moisture-stress
+    index bands, irrigation action logic (harvest→reduce, 0 mm/L invariants), determinism, and
+    fixture-classification accuracy.
+  - `services/soil-baseline.test.ts` — health-score bounds, fertilizer-selection branches, pH
+    lime/gypsum notes, pesticide swaps, 3-step plan.
+  - `services/alerts.test.ts` — each alert rule's thresholds and moderate/severe cutoffs,
+    consecutive-day run collapsing, localization, and a **regression test for the cold-snap
+    severity bug** (a warmer day must not mask the coldest day in a multi-day run).
+  - `lib/disease-safety.test.ts` — the safety gates: confidence-band labelling, sub-threshold
+    scrubbing, PPE enforcement, and non-leaf/healthy blocking.
+- **Client suite (`client/src/**/*.test.ts`) — ~23 tests:** `lib/utils.test.ts` (`cn`, `clamp`,
+  `hashString`, `getInitials`, `seededRandom`), `lib/intent.test.ts` (intent detection incl.
+  native-script keywords and word-boundary matching), `lib/soil-engine.test.ts`.
+- **Not yet covered:** React component/DOM tests (would need jsdom + Testing Library) and API
+  integration tests against the Fastify app. The pure domain logic — the highest-risk code — is
+  covered; the UI is not.
 
 ---
 
@@ -930,12 +940,16 @@ Optional: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
 - **Legacy `mock-api.ts`** coexists with real clients; some helpers are dead/back-compat paths.
 - **Zod version mismatch** — client Zod 4 vs server Zod 3 (intentional per-package, but a
   maintenance footgun).
-- **No tests / no coverage.**
+- **UI is untested** — domain logic has Vitest coverage, but there are no component/DOM or API
+  integration tests yet.
 - **LLM cost & latency** — advisory/disease prompts are large; only input-hash caching mitigates.
 - **Placeholder marketing links** and a hard-coded helpline/email in the footer.
 - **Rate-limit & cache correctness break under horizontal scaling** (documented).
-- **`GROQ_MAX_TOKENS` default drift** — code default 1024 vs `.env.example` 4500; advisory route
-  requests 4500 but is clamped to the configured cap, so a low cap silently truncates rich outputs.
+
+**Recently fixed** (see git history): the `GROQ_MAX_TOKENS` default now matches `.env.example`
+(`4500`) so advisory outputs are no longer silently truncated; the cold-snap alert severity bug
+(multi-day runs graded by the wrong day) is fixed with a regression test; the client lint suite is
+now clean (was 20 errors) and CI enforces lint + tests.
 
 **TODOs/known-bug markers:** the codebase uses explanatory comments rather than `TODO` tags; the
 main "known" items are the mock auth, single-instance constraint, and demo satellite data — all

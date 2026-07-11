@@ -33,7 +33,7 @@ Validated by `server/src/config.ts` (Zod). The build fails to start if required 
 | `GROQ_BASE_URL` | no | `https://api.groq.com` | |
 | `GROQ_MODEL_TEXT` | no | `llama-3.3-70b-versatile` | |
 | `GROQ_MODEL_VISION` | no | `meta-llama/llama-4-scout-17b-16e-instruct` | |
-| `GROQ_MAX_TOKENS` | no | `1024` | Max 8192. |
+| `GROQ_MAX_TOKENS` | no | `4500` | Max 8192. Upper bound on completion tokens; `callGroq` clamps every request to this, so it must clear the most token-hungry feature (crop advisory). |
 | `GROQ_TIMEOUT_MS` | no | `30000` | Max 120000. |
 | `ADMIN_TOKEN` | no | `''` | Set a strong rotated value to protect admin routes. |
 | `NODE_ENV` | no | — | Set to `production` (Dockerfile sets this). |
