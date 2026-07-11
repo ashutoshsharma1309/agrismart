@@ -1,3 +1,7 @@
+/* eslint-disable react-refresh/only-export-components --
+   Route-configuration module: it defines lazy route components alongside the
+   exported `router`. Fast Refresh of these isn't meaningful, so the rule is
+   intentionally disabled for this file. */
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { MarketingLayout } from './MarketingLayout';

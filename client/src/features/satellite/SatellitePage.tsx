@@ -109,6 +109,10 @@ export function SatellitePage() {
   useEffect(() => {
     if (!selectedId) return;
     let alive = true;
+    // Intentional synchronous setState: flip to the loading state the instant
+    // the selected field changes so the panel shows a spinner immediately,
+    // before the fetch resolves.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoadingAnalysis(true);
     fetchFieldAnalysis(selectedId)
       .then((a) => alive && setAnalysis(a))

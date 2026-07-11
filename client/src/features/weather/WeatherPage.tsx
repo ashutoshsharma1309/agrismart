@@ -36,7 +36,7 @@ import {
   fallbackCurrent,
   fallbackForecast,
 } from '../../lib/weather-fallback';
-import { iconForCode } from './conditionIcon';
+import { conditionIcon, conditionIconByLabel } from './conditionIcon';
 import type { Lang } from '../../i18n';
 
 type SavedLocation = {
@@ -111,6 +111,9 @@ export function WeatherPage() {
   );
 
   useEffect(() => {
+    // `load` synchronously enters its loading state before awaiting the network,
+    // which is the intended behaviour when the active location changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (active) void load(active);
   }, [active, load]);
 
@@ -366,13 +369,11 @@ export function WeatherPage() {
                 {Math.round(current.current.temp_c)}°
               </span>
               <div className="mb-1.5">
-                {(() => {
-                  const Icon = iconForCode(
-                    current.current.condition.code,
-                    current.current.condition.description,
-                  );
-                  return <Icon size={36} className="text-accent-600" aria-hidden />;
-                })()}
+                {conditionIcon(
+                  current.current.condition.code,
+                  { size: 36, className: 'text-accent-600', 'aria-hidden': true },
+                  current.current.condition.description,
+                )}
                 <div className="text-sm capitalize text-ink-muted">
                   {current.current.condition.description}
                 </div>
@@ -501,13 +502,14 @@ export function WeatherPage() {
 function ForecastTile({ forecast }: { forecast: ForecastDay }) {
   const d = new Date(forecast.date_iso + 'T00:00:00');
   const label = d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' });
-  // We approximate a condition code from the label since the forecast endpoint
-  // groups several 3-hour slices — this is fine for icon selection.
-  const Icon = iconByLabel(forecast.condition.label, forecast.condition.description);
   return (
     <div className="flex min-w-[120px] flex-col items-center gap-1.5 rounded-2xl border border-border bg-surface-2 p-3 text-center">
       <div className="text-xs font-medium text-ink-muted">{label}</div>
-      <Icon size={28} className="text-accent-600" aria-hidden />
+      {conditionIconByLabel(
+        forecast.condition.label,
+        { size: 28, className: 'text-accent-600', 'aria-hidden': true },
+        forecast.condition.description,
+      )}
       <div className="mt-1 text-sm font-semibold text-ink">
         {Math.round(forecast.temp_max_c)}° / {Math.round(forecast.temp_min_c)}°
       </div>
@@ -522,19 +524,6 @@ function ForecastTile({ forecast }: { forecast: ForecastDay }) {
       ) : null}
     </div>
   );
-}
-
-function iconByLabel(label: string, description: string) {
-  const l = label.toLowerCase();
-  // Map OWM "main" groupings to a rough code so we can reuse the same icon picker.
-  if (l.includes('thunder')) return iconForCode(200, description);
-  if (l.includes('drizzle')) return iconForCode(300, description);
-  if (l.includes('rain')) return iconForCode(500, description);
-  if (l.includes('snow')) return iconForCode(600, description);
-  if (l.includes('mist') || l.includes('fog') || l.includes('haze')) return iconForCode(741, description);
-  if (l.includes('clear')) return iconForCode(800, description);
-  if (l.includes('cloud')) return iconForCode(803, description);
-  return iconForCode(0, description);
 }
 
 function MiniStat({

@@ -104,8 +104,11 @@ Optional client env: `VITE_API_BASE_URL` (defaults to `http://localhost:4000`).
 
 ## Scripts
 
-**Client** — `npm run dev` · `npm run build` · `npm run preview` · `npm run lint`
-**Server** — `npm run dev` · `npm run build` · `npm start` · `npm run typecheck`
+**Client** — `npm run dev` · `npm run build` · `npm run preview` · `npm run lint` · `npm test`
+**Server** — `npm run dev` · `npm run build` · `npm start` · `npm run typecheck` · `npm test`
+
+Both packages use [Vitest](https://vitest.dev). Run `npm test` in either directory (CI runs
+lint + typecheck + test + build for both on every push and PR).
 
 ## Deployment
 

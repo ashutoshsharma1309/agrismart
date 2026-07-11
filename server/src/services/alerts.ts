@@ -15,6 +15,10 @@ type Rule = {
   kind: AlertKind;
   test: (d: ForecastDay) => { matches: boolean; value: number };
   severityAt: (value: number) => 'moderate' | 'severe';
+  // Which direction along `value` is more severe. For heat/rain/wind the higher
+  // reading is worse; for a cold snap the *lower* temperature is worse. This
+  // decides which day drives a multi-day run's severity.
+  worst: 'higher' | 'lower';
 };
 
 const rules: Rule[] = [
@@ -22,21 +26,25 @@ const rules: Rule[] = [
     kind: 'heat_wave',
     test: (d) => ({ matches: d.temp_max_c >= 38, value: d.temp_max_c }),
     severityAt: (v) => (v >= 41 ? 'severe' : 'moderate'),
+    worst: 'higher',
   },
   {
     kind: 'heavy_rain',
     test: (d) => ({ matches: d.precipitation_mm >= 50, value: d.precipitation_mm }),
     severityAt: (v) => (v >= 100 ? 'severe' : 'moderate'),
+    worst: 'higher',
   },
   {
     kind: 'high_wind',
     test: (d) => ({ matches: d.wind_speed_avg_ms >= 12, value: d.wind_speed_avg_ms }),
     severityAt: (v) => (v >= 18 ? 'severe' : 'moderate'),
+    worst: 'higher',
   },
   {
     kind: 'cold_snap',
     test: (d) => ({ matches: d.temp_min_c <= 5, value: d.temp_min_c }),
     severityAt: (v) => (v <= 2 ? 'severe' : 'moderate'),
+    worst: 'lower',
   },
 ];
 
@@ -58,7 +66,12 @@ export function deriveAlerts(forecast: ForecastResponse, lang: string): DerivedA
         if (!run) run = { start: day, end: day, peak: r.value };
         else {
           run.end = day;
-          if (Math.abs(r.value) > Math.abs(run.peak)) run.peak = r.value;
+          // Keep the most-severe reading in the run: the highest value for
+          // heat/rain/wind, the lowest for a cold snap.
+          run.peak =
+            rule.worst === 'lower'
+              ? Math.min(r.value, run.peak)
+              : Math.max(r.value, run.peak);
         }
       } else if (run) {
         alerts.push(buildAlert(rule, run, lang));
